@@ -105,7 +105,7 @@ spec:
                             command: dotnet
                             arguments: ["test"]
           EOF
-          curl -u username:password -X POST -H "Content-Type: application/json" -d @gocd-config.yaml ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
+          curl -X POST -H "Content-Type: application/json" -d @gocd-config.yaml ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: publish
       name: Publish
       action: publish:github
