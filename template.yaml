@@ -95,7 +95,7 @@ spec:
       input:
         script: |
           echo "Configuring GOCD pipeline..."
-          cat <<EOF > gocd-config.json
+          cat <<EOF > C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
           {
             "group": "testpipeline",
             "pipeline": {
@@ -191,7 +191,7 @@ spec:
             }
           }
           EOF
-          curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
+          curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: publish
       name: Publish
       action: publish:github
