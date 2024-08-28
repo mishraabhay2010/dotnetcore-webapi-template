@@ -1,0 +1,91 @@
+metadata:
+  name: dotnetcore-webapi-template
+  title: .NET Core Web API Template
+  description: Template for creating a .NET Core Web API project with .NET 8
+  tags:
+    - dotnetcore
+    - webapi
+    - net8
+spec:
+  owner: user:mishraabhay2010
+  type: service
+
+  parameters:
+    - title: Project Name
+      description: The name of the project
+      required:
+        - name
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+    - title: Choose a location
+      required:
+        - location
+      properties:
+        location:
+          title: Location
+          type: string
+          description: Repository location
+    - title: GOCD Configuration
+      description: Configuration for GOCD CI/CD
+      required:
+        - gocdPipelineName
+        - gocdServerUrl
+      properties:
+        gocdPipelineName:
+          title: GOCD Pipeline Name
+          type: string
+          description: Name of the GOCD pipeline
+        gocdServerUrl:
+          title: GOCD Server URL
+          type: string
+          description: URL of the GOCD server
+
+  steps:
+    - id: fetch-repository
+      name: Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: https://github.com/mishraabhay2010/dotnetcore-webapi-template
+        branch: main
+    - id: configure-gocd
+      name: Configure GOCD
+      action: shell:script
+      input:
+        script: |
+          echo "Configuring GOCD pipeline..."
+          cat <<EOF > gocd-config.yaml
+          pipelines:
+            - name: ${{ parameters.gocdPipelineName }}
+              materials:
+                - git:
+                    url: ${{ parameters.location }}
+              stages:
+                - name: build
+                  jobs:
+                    - name: build
+                      tasks:
+                        - exec:
+                            command: dotnet
+                            arguments: ["build"]
+                - name: test
+                  jobs:
+                    - name: test
+                      tasks:
+                        - exec:
+                            command: dotnet
+                            arguments: ["test"]
+          EOF
+          curl -u username:password -X POST -H "Content-Type: application/json" -d @gocd-config.yaml ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
+    - id: create-component
+      name: Create Component
+      action: scaffolder:register
+      input:
+        repoUrl: ${{ parameters.location }}
+        repoVisibility: private
+        owner: ${{ spec.owner }}
