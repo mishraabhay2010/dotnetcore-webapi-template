@@ -191,6 +191,8 @@ spec:
             }
           }
           EOF
+          echo cat C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
+          echo "Configuring GOCD pipeline ending..."
           curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: publish
       name: Publish
