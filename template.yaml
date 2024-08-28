@@ -15,6 +15,7 @@ spec:
       description: The name of the project
       required:
         - name
+        - owner
       properties:
         name:
           title: Name
@@ -23,14 +24,30 @@ spec:
           ui:autofocus: true
           ui:options:
             rows: 5
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this webApi is for.
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
     - title: Choose a location
       required:
         - location
       properties:
         location:
-          title: Location
+          title: Repository Location
           type: string
           description: Repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
     - title: GOCD Configuration
       description: Configuration for GOCD CI/CD
       required:
@@ -51,8 +68,15 @@ spec:
       name: Fetch Skeleton + Template
       action: fetch:template
       input:
-        url: https://github.com/mishraabhay2010/dotnetcore-webapi-template
-        branch: main
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
+        values:
+          component_id: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.location | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          pipelineName: ${{ parameters.gocdPipelineName }}
     - id: configure-gocd
       name: Configure GOCD
       action: shell:script
@@ -82,10 +106,24 @@ spec:
                             arguments: ["test"]
           EOF
           curl -u username:password -X POST -H "Content-Type: application/json" -d @gocd-config.yaml ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts:
+          - github.com
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.location }}
     - id: create-component
       name: Create Component
-      action: scaffolder:register
+      action: catalog:register
       input:
-        repoUrl: ${{ parameters.location }}
-        repoVisibility: private
-        owner: ${{ spec.owner }}
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: "/catalog-info.yaml"
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
