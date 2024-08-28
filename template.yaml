@@ -11,6 +11,16 @@ metadata:
 spec:
   owner: user:mishraabhay2010
   type: service
+  actions:
+    shell:script:
+      description: "Run a shell script"
+      inputs:
+        script:
+          description: "The shell script to run"
+          required: true
+      runs:
+        using: "shell"
+        main: "${{ inputs.script }}"
 
   parameters:
     - title: Project Name
