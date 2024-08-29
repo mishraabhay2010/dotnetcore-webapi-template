@@ -95,102 +95,101 @@ spec:
       input:
         script: |
           echo "Configuring GOCD pipeline..."
-          echo '{
-           "group": "testpipeline",
-            "pipeline": {
-              "name": "${{ parameters.gocdPipelineName }}",
-              "display_order_weight": -1.0,
-              "label_template": "${COUNT}",
-              "lock_behavior": "none",
-              "environment_variables": [],
-              "parameters": [],
-              "materials": [
-                {
-                  "type": "git",
-                  "attributes": {
-                    "url": "${{ parameters.location }}",
-                    "branch": "master",
-                    "shallow_clone": false,
-                    "auto_update": true
-                  }
-                }
-              ],
-              "stages": [
-                {
-                  "name": "build",
-                  "fetch_materials": true,
-                  "never_cleanup_artifacts": false,
-                  "clean_working_directory": false,
-                  "approval": {
-                    "type": "success",
-                    "authorization": {
-                      "users": [],
-                      "roles": []
-                    },
-                    "allow_only_on_success": false
-                  },
-                  "environment_variables": [],
-                  "jobs": [
-                    {
-                      "name": "build",
-                      "environment_variables": [],
-                      "tabs": [],
-                      "resources": [],
-                      "artifacts": [],
-                      "timeout": null,
-                      "tasks": [
-                        {
-                          "type": "exec",
-                          "attributes": {
-                            "run_if": ["passed"],
-                            "command": "dotnet",
-                            "args": ["build"]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "name": "test",
-                  "fetch_materials": true,
-                  "never_cleanup_artifacts": false,
-                  "clean_working_directory": false,
-                  "approval": {
-                    "type": "success",
-                    "authorization": {
-                      "users": [],
-                      "roles": []
-                    },
-                    "allow_only_on_success": false
-                  },
-                  "environment_variables": [],
-                  "jobs": [
-                    {
-                      "name": "test",
-                      "environment_variables": [],
-                      "tabs": [],
-                      "resources": [],
-                      "artifacts": [],
-                      "timeout": null,
-                      "tasks": [
-                        {
-                          "type": "exec",
-                          "attributes": {
-                            "run_if": ["passed"],
-                            "command": "dotnet",
-                            "args": ["test"]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+          echo {^
+           "group": "testpipeline",^
+            "pipeline": {^
+              "name": "${{ parameters.gocdPipelineName }}",^
+              "display_order_weight": -1,^
+              "label_template": "${COUNT}",^
+              "lock_behavior": "none",^
+              "environment_variables": [],^
+              "parameters": [],^
+              "materials": [^
+                {^
+                  "type": "git",^
+                  "attributes": {^
+                    "url": "${{ parameters.location }}",^
+                    "branch": "master",^
+                    "shallow_clone": false,^
+                    "auto_update": true^
+                  }^
+                }^
+              ],^
+              "stages": [^
+                {^
+                  "name": "build",^
+                  "fetch_materials": true,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": false^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "build",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "args": ["build"]^
+                          }^
+                        }^
+                      ]^
+                    }^
+                  ]^
+                },^
+                {^
+                  "name": "test",^
+                  "fetch_materials": true,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": false^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "test",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "args": ["test"]^
+                          }^
+                        }^
+                      ]^
+                    }^
+                  ]^
+                }^
+              ]^
+            }^
     
-          }' > C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
-          echo cat C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
+          }^ > C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
           echo "Configuring GOCD pipeline ending..."
           curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: publish
