@@ -89,6 +89,14 @@ spec:
           destination: ${{ parameters.location | parseRepoUrl }}
           owner: ${{ parameters.owner }}
           pipelineName: ${{ parameters.gocdPipelineName }}
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts:
+          - github.com
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.location }}
     - id: configure-gocd
       name: Configure GOCD
       action: shell:script
@@ -108,7 +116,7 @@ spec:
                 {^
                   "type": "git",^
                   "attributes": {^
-                    "url": "${{ parameters.location }}",^
+                    "url": "${{ steps.publish.output.remoteUrl }}",^
                     "branch": "master",^
                     "shallow_clone": false,^
                     "auto_update": true^
@@ -192,14 +200,6 @@ spec:
           }^ > C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json
           echo "Configuring GOCD pipeline ending..."
           curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @C:/dotnetcoresample/dotnetcore-webapi-template/gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts:
-          - github.com
-        description: This is ${{ parameters.name }}
-        repoUrl: ${{ parameters.location }}
     - id: create-component
       name: Create Component
       action: catalog:register
