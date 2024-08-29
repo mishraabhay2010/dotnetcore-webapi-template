@@ -104,7 +104,7 @@ spec:
       input:
         script: |
           echo "Configuring GOCD pipeline..."
-          cat gocd-config.json > gocd-config.json
+          powershell -Command "Get-Content gocd-config.json | Set-Content gocd-config.json"
           echo "Configuring GOCD pipeline ending..."
           curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: create-component
