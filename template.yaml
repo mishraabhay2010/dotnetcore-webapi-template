@@ -98,7 +98,9 @@ spec:
         description: This is ${{ parameters.name }}
         repoUrl: ${{ parameters.location }}
     # configure GOCD pipeline
-    - include: gocd.yaml
+    - id: configure-gocd
+      name: Configure GOCD
+      action: include:./gocd.yaml
     - id: create-component
       name: Create Component
       action: catalog:register
