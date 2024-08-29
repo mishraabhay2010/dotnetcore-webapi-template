@@ -1,0 +1,12 @@
+# gocd.yaml
+- id: configure-gocd
+  name: Configure GOCD
+  action: shell:script
+  input:
+    script: |
+      echo "Configuring GOCD pipeline..."
+      cat <<EOF > gocd-config.json
+      $(<gocd-config.json)
+      EOF
+      echo "Configuring GOCD pipeline ending..."
+      curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
