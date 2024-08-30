@@ -12,7 +12,6 @@ spec:
   type: service
   owner: team-a
   system: netcoreexample
-  providesApis: [dotnetcore-webapi-api]
   actions:
     shell:script:
       description: "Run a shell script"
@@ -215,44 +214,3 @@ spec:
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
----
-apiVersion: backstage.io/v1alpha1
-kind: API
-metadata:
-  name: dotnetcore-webapi
-  title: DotNetCore WebAPI
-  description: OpenAPI specification for the DotNetCore WebAPI
-spec:
-  type: openapi
-  lifecycle: production
-  owner: team-a
-  system: examples
-  parameters:
-    - name: repoUrl
-      description: The URL of the repository containing the source code for this API
-      required: true
-      type: string
-  definition: |
-    openapi: 3.0.0
-    info:
-      title: DotNetCore WebAPI
-      version: 1.0.0
-      description: >
-        This is the OpenAPI specification for the DotNetCore WebAPI.
-        The source code for this API can be found at: ${{ parameters.repoUrl }}
-    paths:
-      /example:
-        get:
-          summary: Example endpoint
-          responses:
-            '200':
-              description: Successful response
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                        example: Hello, World!
-
