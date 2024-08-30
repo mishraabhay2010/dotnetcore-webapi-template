@@ -216,7 +216,7 @@ spec:
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
 ---
-apiVersion: scaffolder.backstage.io/v1beta3
+apiVersion:  backstage.io/v1alpha1
 kind: API
 metadata:
   name: dotnetcore-webapi-api
