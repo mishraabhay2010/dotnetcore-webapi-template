@@ -216,21 +216,25 @@ spec:
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
 ---
-apiVersion:  backstage.io/v1alpha1
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
-  name: dotnetcore-webapi-api
-  description: API definition for the .NET Core Web API project
+  name: dotnetcore-webapi
+  title: DotNetCore WebAPI
+  description: OpenAPI specification for the DotNetCore WebAPI
 spec:
   type: openapi
   lifecycle: production
   owner: team-a
-  system: netcoreexample
+  system: examples
   definition: |
     openapi: 3.0.0
     info:
       title: DotNetCore WebAPI
       version: 1.0.0
+      description: >
+        This is the OpenAPI specification for the DotNetCore WebAPI.
+        The source code for this API can be found at: ${{ parameters.repoUrl }}
     paths:
       /example:
         get:
