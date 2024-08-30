@@ -13,3 +13,35 @@ spec:
   type: service
   lifecycle: production
   owner: ${{values.owner | dump}}
+  providesApis: [mydotnetcore-webapi]
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: mydotnetcore-webapi
+  description: API definition for the .NET Core Web API project
+spec:
+  type: openapi
+  lifecycle: production
+  owner: team-a
+  system: examples
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: DotNetCore WebAPI
+      version: 1.0.0
+    paths:
+      /example:
+        get:
+          summary: Example endpoint
+          responses:
+            '200':
+              description: Successful response
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Hello, World!
