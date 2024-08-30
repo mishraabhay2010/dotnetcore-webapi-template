@@ -222,8 +222,8 @@ metadata:
   name: dotnetcore-webapi
   title: DotNetCore WebAPI
   description: OpenAPI specification for the DotNetCore WebAPI
-input:
-  repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+  input:
+    repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
 spec:
   type: openapi
   lifecycle: production
