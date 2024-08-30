@@ -9,8 +9,10 @@ metadata:
     - webapi
     - net8
 spec:
-  owner: user:mishraabhay2010
   type: service
+  owner: team-a
+  system: netcoreexample
+  providesApis: [dotnetcore-webapi-api]
   actions:
     shell:script:
       description: "Run a shell script"
@@ -213,3 +215,34 @@ spec:
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: API
+metadata:
+  name: dotnetcore-webapi-api
+  description: API definition for the .NET Core Web API project
+spec:
+  type: openapi
+  lifecycle: production
+  owner: team-a
+  system: netcoreexample
+  definition: |
+    openapi: 3.0.0
+    info:
+      title: DotNetCore WebAPI
+      version: 1.0.0
+    paths:
+      /example:
+        get:
+          summary: Example endpoint
+          responses:
+            '200':
+              description: Successful response
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Hello, World!
