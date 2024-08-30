@@ -12,7 +12,7 @@ spec:
   type: service
   owner: team-a
   system: netcoreexample
-  providesApis: [dotnetcore-webapi]
+  providesApis: [dotnetcore-webapi-api]
   actions:
     shell:script:
       description: "Run a shell script"
@@ -217,13 +217,24 @@ spec:
         entityRef: ${{ steps.register.output.entityRef }}
 ---
 apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ${{ parameters.name }}
+  description: A .NET Core Web API component
+spec:
+  type: service
+  lifecycle: production
+  owner: team-a
+  system: examples
+  providesApis:
+    - dotnetcore-webapi-api
+---
+apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: dotnetcore-webapi
   title: DotNetCore WebAPI
   description: OpenAPI specification for the DotNetCore WebAPI
-  input:
-    repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
 spec:
   type: openapi
   lifecycle: production
