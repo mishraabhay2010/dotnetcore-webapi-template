@@ -217,19 +217,6 @@ spec:
         entityRef: ${{ steps.register.output.entityRef }}
 ---
 apiVersion: backstage.io/v1alpha1
-kind: Component
-metadata:
-  name: ${{ parameters.name }}
-  description: A .NET Core Web API component
-spec:
-  type: service
-  lifecycle: production
-  owner: team-a
-  system: examples
-  providesApis:
-    - dotnetcore-webapi-api
----
-apiVersion: backstage.io/v1alpha1
 kind: API
 metadata:
   name: dotnetcore-webapi
@@ -240,6 +227,11 @@ spec:
   lifecycle: production
   owner: team-a
   system: examples
+  parameters:
+    - name: repoUrl
+      description: The URL of the repository containing the source code for this API
+      required: true
+      type: string
   definition: |
     openapi: 3.0.0
     info:
@@ -263,3 +255,4 @@ spec:
                       message:
                         type: string
                         example: Hello, World!
+
