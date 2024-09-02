@@ -1,0 +1,223 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: dotnetcore-webapi-template-branch
+  title: Beckend Web API Repo
+  description: Template for creating a branch from master branch
+  tags:
+    - dotnetcore
+    - webapi
+    - net8
+spec:
+  type: service
+  owner: team-a
+  system: netcoreexample
+  actions:
+    shell:script:
+      description: "Run a shell script"
+      inputs:
+        script:
+          description: "The shell script to run"
+          required: true
+      runs:
+        using: "shell"
+        main: "${{ inputs.script }}"
+
+  parameters:
+    - title: Project Name
+      description: The name of the project
+      required:
+        - name
+        - owner
+      properties:
+        name:
+          title: Name
+          type: string
+          description: Unique name of the component
+          ui:autofocus: true
+          ui:options:
+            rows: 5
+        description:
+          title: Description
+          type: string
+          description: Help others understand what this webApi is for.
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+    - title: Choose a location
+      required:
+        - location
+      properties:
+        location:
+          title: Repository Location
+          type: string
+          description: Repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+    - title: GOCD Configuration
+      description: Configuration for GOCD CI/CD
+      required:
+        - gocdPipelineName
+        - gocdServerUrl
+      properties:
+        gocdPipelineName:
+          title: GOCD Pipeline Name
+          type: string
+          description: Name of the GOCD pipeline
+        gocdServerUrl:
+          title: GOCD Server URL
+          type: string
+          description: URL of the GOCD server
+
+  steps:
+    - id: fetch-repository
+      name: Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
+        values:
+          component_id: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          destination: ${{ parameters.location | parseRepoUrl }}
+          owner: ${{ parameters.owner }}
+          pipelineName: ${{ parameters.gocdPipelineName }}
+    - id: create-branch
+      name: Create Branch
+      action: shell:script
+      input:
+        script: |
+          git clone ${{ parameters.location }} repo
+          cd repo
+          git checkout -b ${{ parameters.name }}
+          git push origin ${{ parameters.name }}
+    - id: configure-gocd
+      name: Configure GOCD
+      action: shell:script
+      input:
+        script: |
+          echo "Configuring GOCD pipeline..."
+          echo {^
+           "group": "testpipeline",^
+            "pipeline": {^
+              "name": "${{ parameters.gocdPipelineName }}",^
+              "display_order_weight": -1,^
+              "label_template": "${COUNT}",^
+              "lock_behavior": "none",^
+              "environment_variables": [],^
+              "parameters": [],^
+              "materials": [^
+                {^
+                  "type": "git",^
+                  "attributes": {^
+                    "url": "${{ parameters.location }}",^
+                    "branch": "${{ parameters.name }}",^
+                    "shallow_clone": false,^
+                    "auto_update": true^
+                  }^
+                }^
+              ],^
+              "stages": [^
+                {^
+                  "name": "build",^
+                  "fetch_materials": true,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": false^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "build",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "args": ["build"]^
+                          }^
+                        }^
+                      ]^
+                    }^
+                  ]^
+                },^
+                {^
+                  "name": "test",^
+                  "fetch_materials": true,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": false^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "test",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "args": ["test"]^
+                          }^
+                        }^
+                      ]^
+                    }^
+                  ]^
+                }^
+              ]^
+            }^
+    
+          }^ > gocd-config.json
+          echo "Configuring GOCD pipeline ending..."
+          curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
+    - id: set-permissions
+      name: Set Repository Permissions
+      action: github:set-permissions
+      input:
+        owner: ${{ parameters.owner }}
+        name: ${{ parameters.location }}
+    - id: create-component
+      name: Create Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ parameters.location }}/tree/${{ parameters.name }}
+        catalogInfoPath: "/catalog-info.yaml"
+  output:
+    links:
+      - title: Repository
+        url: ${{ parameters.location }}/tree/${{ parameters.name }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
