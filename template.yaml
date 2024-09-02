@@ -206,7 +206,7 @@ spec:
       action: github:set-permissions
       input:
         owner: ${{ parameters.owner }}
-        name: ${{ parameters.name }}
+        name: ${{ parameters.location }}
     - id: create-component
       name: Create Component
       action: catalog:register
