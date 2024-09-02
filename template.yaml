@@ -203,12 +203,10 @@ spec:
           curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
     - id: set-permissions
       name: Set Repository Permissions
-      action: shell:script
+      action: github:set-permissions
       input:
-        script: |
-          gh api -X PUT /repos/${{ parameters.owner }}/${{ parameters.name }}/collaborators/team-a --role=write
-          gh api -X PUT /repos/${{ parameters.owner }}/${{ parameters.name }}/teams/team-a --role=write
-          gh api -X PUT /repos/${{ parameters.owner }}/${{ parameters.name }}/teams/other-team --role=read
+        owner: ${{ parameters.owner }}
+        name: ${{ parameters.name }}
     - id: create-component
       name: Create Component
       action: catalog:register
