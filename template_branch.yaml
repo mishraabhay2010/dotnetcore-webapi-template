@@ -52,6 +52,7 @@ spec:
     - title: Choose a location
       required:
         - location
+        - branch
       properties:
         location:
           title: Repository Location
@@ -61,20 +62,10 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-    - title: GOCD Configuration
-      description: Configuration for GOCD CI/CD
-      required:
-        - gocdPipelineName
-        - gocdServerUrl
-      properties:
-        gocdPipelineName:
-          title: GOCD Pipeline Name
+        branch:
+          title: Checkout Branch Name
           type: string
-          description: Name of the GOCD pipeline
-        gocdServerUrl:
-          title: GOCD Server URL
-          type: string
-          description: URL of the GOCD server
+
 
   steps:
     - id: fetch-repository
@@ -89,135 +80,18 @@ spec:
           description: ${{ parameters.description }}
           destination: ${{ parameters.location | parseRepoUrl }}
           owner: ${{ parameters.owner }}
-          pipelineName: ${{ parameters.gocdPipelineName }}
+          checkout_branch: ${{ parameters.branch }}
     - id: create-branch
       name: Create Branch
-      action: shell:script
-      input:
-        script: |
-          git clone ${{ parameters.location }} repo
-          cd repo
-          git checkout -b ${{ parameters.name }}
-          git push origin ${{ parameters.name }}
-    - id: configure-gocd
-      name: Configure GOCD
-      action: shell:script
-      input:
-        script: |
-          echo "Configuring GOCD pipeline..."
-          echo {^
-           "group": "testpipeline",^
-            "pipeline": {^
-              "name": "${{ parameters.gocdPipelineName }}",^
-              "display_order_weight": -1,^
-              "label_template": "${COUNT}",^
-              "lock_behavior": "none",^
-              "environment_variables": [],^
-              "parameters": [],^
-              "materials": [^
-                {^
-                  "type": "git",^
-                  "attributes": {^
-                    "url": "${{ parameters.location }}",^
-                    "branch": "${{ parameters.name }}",^
-                    "shallow_clone": false,^
-                    "auto_update": true^
-                  }^
-                }^
-              ],^
-              "stages": [^
-                {^
-                  "name": "build",^
-                  "fetch_materials": true,^
-                  "never_cleanup_artifacts": false,^
-                  "clean_working_directory": false,^
-                  "approval": {^
-                    "type": "success",^
-                    "authorization": {^
-                      "users": [],^
-                      "roles": []^
-                    },^
-                    "allow_only_on_success": false^
-                  },^
-                  "environment_variables": [],^
-                  "jobs": [^
-                    {^
-                      "name": "build",^
-                      "environment_variables": [],^
-                      "tabs": [],^
-                      "resources": [],^
-                      "artifacts": [],^
-                      "timeout": null,^
-                      "tasks": [^
-                        {^
-                          "type": "exec",^
-                          "attributes": {^
-                            "run_if": ["passed"],^
-                            "command": "dotnet",^
-                            "args": ["build"]^
-                          }^
-                        }^
-                      ]^
-                    }^
-                  ]^
-                },^
-                {^
-                  "name": "test",^
-                  "fetch_materials": true,^
-                  "never_cleanup_artifacts": false,^
-                  "clean_working_directory": false,^
-                  "approval": {^
-                    "type": "success",^
-                    "authorization": {^
-                      "users": [],^
-                      "roles": []^
-                    },^
-                    "allow_only_on_success": false^
-                  },^
-                  "environment_variables": [],^
-                  "jobs": [^
-                    {^
-                      "name": "test",^
-                      "environment_variables": [],^
-                      "tabs": [],^
-                      "resources": [],^
-                      "artifacts": [],^
-                      "timeout": null,^
-                      "tasks": [^
-                        {^
-                          "type": "exec",^
-                          "attributes": {^
-                            "run_if": ["passed"],^
-                            "command": "dotnet",^
-                            "args": ["test"]^
-                          }^
-                        }^
-                      ]^
-                    }^
-                  ]^
-                }^
-              ]^
-            }^
-    
-          }^ > gocd-config.json
-          echo "Configuring GOCD pipeline ending..."
-          curl -u "user:user" -H "Accept: application/vnd.go.cd.v11+json" -H "Content-Type: application/json" -H "X-pause-pipeline: true" --data-binary @gocd-config.json ${{ parameters.gocdServerUrl }}/go/api/admin/pipelines
-    - id: set-permissions
-      name: Set Repository Permissions
-      action: github:set-permissions
+      action: github:create-branch
       input:
         owner: ${{ parameters.owner }}
-        name: ${{ parameters.location }}
-    - id: create-component
-      name: Create Component
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ parameters.location }}/tree/${{ parameters.name }}
-        catalogInfoPath: "/catalog-info.yaml"
+        sourceBranch: ${{ parameters.location }}
+        destinationBranch: ${{ parameters.branch }}
   output:
     links:
       - title: Repository
-        url: ${{ parameters.location }}/tree/${{ parameters.name }}
+        url: ${{ steps.publish.output.remoteUrl }}
       - title: Open in catalog
         icon: catalog
         entityRef: ${{ steps.register.output.entityRef }}
