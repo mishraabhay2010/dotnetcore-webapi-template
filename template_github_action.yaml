@@ -1,8 +1,8 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: dotnetcore-webapi-template-with-github-action
-  title: .NET Core Web API Template with PR
+  name: dotnetcore-webapi-template
+  title: .NET Core Web API Template
   description: Template for creating a .NET Core Web API project with .NET 8
   tags:
     - dotnetcore
@@ -11,18 +11,7 @@ metadata:
 spec:
   type: service
   owner: team-a
-  system: production
-  actions:
-    shell:script:
-      description: "Run a shell script"
-      inputs:
-        script:
-          description: "The shell script to run"
-          required: true
-      runs:
-        using: "shell"
-        main: "${{ inputs.script }}"
-
+  system: netcoreexample
   parameters:
     - title: Project Name
       description: The name of the project
@@ -215,8 +204,9 @@ spec:
         catalogInfoPath: "/catalog-info.yaml"
     - id: create-github-actions-workflow
       name: Create GitHub Actions Workflow
-      action: write:file
+      action: custom:create-github-actions-workflow
       input:
+        repoUrl: ${{ parameters.location }}
         path: .github/workflows/ci.yml
         contents: |
           name: CI
