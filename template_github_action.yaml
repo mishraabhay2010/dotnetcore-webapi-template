@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: dotnetcore-webapi-template
-  title: .NET Core Web API Template
-  description: Template for creating a .NET Core Web API project with .NET 8
+  name: dotnetcore-webapi-template-pr-action
+  title: .NET Core Web API Template with pull request action workflow
+  description: Template for creating a .NET Core Web API project with .NET 8 with PR action
   tags:
     - dotnetcore
     - webapi
@@ -210,31 +210,24 @@ spec:
         path: .github/workflows/ci.yml
         contents: |
           name: CI
-
           on:
             pull_request:
               branches:
                 - main
-
-          jobs:
+            jobs:
             build:
               runs-on: ubuntu-latest
-
-              steps:
+            steps:
                 - name: Checkout code
                   uses: actions/checkout@v2
-
                 - name: Setup .NET Core
                   uses: actions/setup-dotnet@v1
                   with:
                     dotnet-version: '8.0.x'
-
                 - name: Restore dependencies
                   run: dotnet restore
-
                 - name: Build
                   run: dotnet build --no-restore
-
                 - name: Test
                   run: dotnet test --no-build --verbosity normal
   output:
