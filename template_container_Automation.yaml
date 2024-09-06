@@ -28,7 +28,6 @@ spec:
       description: The name of the project
       required:
         - name
-        - owner
       properties:
         name:
           title: Name
