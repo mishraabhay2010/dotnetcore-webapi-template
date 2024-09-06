@@ -1,13 +1,13 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: container-automatio-template
-  title: Container Automation
-  description: Template for cloud bridge assessment
+  name: app-containerization-template 
+  title: App Containerization Template 
+  description: Template for application cloud assessment and containerization
   tags:
-    - container
+    - containerization
     - automation
-    - cloudbridge
+    - cloud assessment
 spec:
   type: service
   owner: team-a
@@ -39,7 +39,7 @@ spec:
         description:
           title: Description
           type: string
-          description: Help others understand what this componet is for.
+          description: Assess source code for cloud migration and set up containerization workflow
     - title: Choose a Repository location
       required:
         - location
@@ -52,20 +52,20 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-    - title: Cloud Bridge Analyzer Configuration
-      description: Configuration for cloud Bridge Analyzer
+    - title: Containerization Configuration 
+      description: Configuration for containerization setup
       required:
         - gocdPipelineName
         - gocdServerUrl
       properties:
         gocdPipelineName:
-          title: Cloud Bridge Job Name
+          title: Job Name
           type: string
-          description: Name of the Cloud Bridge Job
+          description: Name of the containerization job
         gocdServerUrl:
-          title: Cloud Bridge URL 
+          title: Cloud Assessment Server URL 
           type: string
-          description: URL of the GOCD server
+          description: URL of the Cloud Assessment server
 
   steps:
     - id: fetch-repository
