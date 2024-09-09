@@ -3,10 +3,10 @@ kind: Template
 metadata:
   name: container-migration
   title: Container Migration Template
-  description: Template for migrating containers using Velero in Kubernetes clusters
+  description: Template for migrating containers using Kubernetes clusters
   tags:
     - kubernetes
-    - velero
+    - container-migration
     - migration
 spec:
   type: service
@@ -48,7 +48,7 @@ spec:
           title: Target Container
           type: string
           description: The name of the target container
-    - title: Velero Configuration
+    - title: Migration configuration 
       required:
         - veleroNamespace
         - backupName
