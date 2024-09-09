@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: container-migration
   title: Container Migration Template
-  description: template for kubernetes migration 
+  description: Template for kubernetes migration 
   tags:
     - kubernetes
     - container-migration
