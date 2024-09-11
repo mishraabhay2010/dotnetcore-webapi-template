@@ -35,6 +35,7 @@ spec:
       required:
         - repoUrl
         - filePath
+        - branch
       properties:
         repoUrl:
           title: Repository URL
@@ -44,6 +45,10 @@ spec:
           title: File Path
           type: string
           description: The file path in the repository to update
+        branch:
+          title: branch name
+          type: sting
+          description: The branch to get the content from
 
   steps:
     - id: fetch-repository
@@ -63,6 +68,7 @@ spec:
         prompt: ${{ parameters.prompt }}
         repoUrl: ${{ parameters.repoUrl }}
         filePath: ${{ parameters.filePath }}
+        branch: ${{ parameters.branch }}
     - id: publish
       name: Publish
       action: publish:github
