@@ -47,7 +47,7 @@ spec:
           description: The file path in the repository to update
         branch:
           title: branch name
-          type: sting
+          type: string
           description: The branch to get the content from
 
   steps:
