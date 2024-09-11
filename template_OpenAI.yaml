@@ -5,9 +5,9 @@ metadata:
   title: Azure OpenAI Code suggestions  template
   description: Template for getting code suggestions from OpenAI
   tags:
-    - OpenAI
-    - GenAI
-    - codeSuggestions
+    - azureopenai
+    - genai
+    - codesuggestions
 spec:
   owner: user:mishraabhay2010
   type: service
