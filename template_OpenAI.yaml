@@ -1,0 +1,86 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: AzureOpenAI-integration-template
+  title: Azure OpenAI Code suggestions  template
+  description: Template for getting code suggestions from OpenAI
+  tags:
+    - OpenAI
+    - GenAI
+    - codeSuggestions
+spec:
+  owner: user:mishraabhay2010
+  type: service
+
+  parameters:
+    - title: Project Name
+      description: The name of the project
+      required:
+        - name
+      properties:
+        name:
+          title: Name
+          type: string
+    - title: Code Suggestion
+      description: Provide a prompt for code suggestion
+      required:
+        - prompt
+      properties:
+        prompt:
+          title: Prompt
+          type: string
+          description: The prompt to generate code suggestions
+    - title: GitHub Repository
+      description: GitHub repository information
+      required:
+        - repoUrl
+        - filePath
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: The URL of the GitHub repository
+        filePath:
+          title: File Path
+          type: string
+          description: The file path in the repository to update
+
+  steps:
+    - id: fetch-repository
+      name: Fetch Skeleton + Template
+      action: fetch:template
+      input:
+        url: ./skeleton
+        copyWithoutRender:
+          - .github/workflows/*
+        values:
+          component_id: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+    - id: generate-code-suggestion
+      name: Generate Code Suggestion
+      action: custom:azure-openai
+      input:
+        prompt: ${{ parameters.prompt }}
+        repoUrl: ${{ parameters.repoUrl }}
+        filePath: ${{ parameters.filePath }}
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts:
+          - github.com
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
