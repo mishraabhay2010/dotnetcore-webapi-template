@@ -32,12 +32,9 @@ spec:
 
     - id: analyze
       name: Analyze Repository
-      action: run:command
+      action: custom:cloud-suitability-analyzer
       input:
-        workingDirectory: /workspace/repo
-        command: |
-          # Run VMware Cloud Suitability Analyzer
-          C:\CBModular\csa.exe analyze  -p C:\CBModular\Test\stateful-java-web-app --zap --export=html --export-dir="Exports" --export-file-name="export"
+        targetPath: C:\Backstageapp\myapp\workspace\repo
 
     - id: publish
       name: Publish Report
