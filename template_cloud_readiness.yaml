@@ -1,0 +1,63 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: cloud-readiness-assessment
+  title: Cloud Readiness Assessment
+  description: Template to assess cloud readiness of a GitHub repository using VMware Cloud Suitability Analyzer
+spec:
+  owner: team@example.com
+  parameters:
+    - title: Repository Information
+      properties:
+        repoUrl:
+          title: GitHub Repository URL
+          type: string
+          description: The URL of the GitHub repository to assess
+          ui:field: RepoUrlPicker
+        name:
+          title: Component Name
+          type: string
+          description: The name of the component to create
+  steps:
+    - id: clone-repo
+      name: Clone Repository
+      action: git:clone
+      input:
+        url: ${{ parameters.repoUrl }}
+        targetPath: /workspace/repo
+
+    - id: analyze
+      name: Analyze Repository
+      action: run:command
+      input:
+        workingDirectory: /workspace/repo
+        command: |
+          # Run VMware Cloud Suitability Analyzer
+          C:\CBModular\csa.exe analyze  -p C:\CBModular\Test\stateful-java-web-app --zap --export=html --export-dir="Exports" --export-file-name="export"
+
+    - id: publish
+      name: Publish Report
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: Cloud Readiness Assessment Report for ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+        files:
+          - /workspace/repo/report.json
+
+    - id: register
+      name: Register Component
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
+      - title: Cloud Readiness Report
+        url: ${{ steps['publish'].output.remoteUrl }}/blob/main/report.json
