@@ -15,6 +15,9 @@ spec:
           type: string
           description: The URL of the GitHub repository to assess
           ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
         name:
           title: Component Name
           type: string
