@@ -17,7 +17,7 @@ spec:
           ui:field: RepoUrlPicker
           ui:options:
             allowedHosts:
-              - github.com
+              - https://github.com
         name:
           title: Component Name
           type: string
@@ -25,10 +25,10 @@ spec:
   steps:
     - id: clone-repo
       name: Clone Repository
-      action: git:clone
+      action: custom:git-clone
       input:
         url: ${{ parameters.repoUrl }}
-        targetPath: /workspace/repo
+        targetPath: C:\Backstageapp\myapp\workspace\repo
 
     - id: analyze
       name: Analyze Repository
