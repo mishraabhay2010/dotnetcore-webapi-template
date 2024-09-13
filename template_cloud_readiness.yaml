@@ -5,6 +5,7 @@ metadata:
   title: Cloud Readiness Assessment
   description: Template to assess cloud readiness of a GitHub repository using Cloud Suitability Analyzer
 spec:
+  type: service
   owner: team@example.com
   parameters:
     - title: Repository Information
