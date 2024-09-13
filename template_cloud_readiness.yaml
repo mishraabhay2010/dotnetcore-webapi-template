@@ -3,7 +3,7 @@ kind: Template
 metadata:
   name: cloud-readiness-assessment
   title: Cloud Readiness Assessment
-  description: Template to assess cloud readiness of a GitHub repository using VMware Cloud Suitability Analyzer
+  description: Template to assess cloud readiness of a GitHub repository using Cloud Suitability Analyzer
 spec:
   owner: team@example.com
   parameters:
