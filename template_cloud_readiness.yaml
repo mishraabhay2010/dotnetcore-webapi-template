@@ -6,7 +6,7 @@ metadata:
   description: Template to assess cloud readiness of a GitHub repository using Cloud Suitability Analyzer
 spec:
   type: service
-  owner: team@example.com
+  owner: team-a
   parameters:
     - title: Repository Information
       properties:
@@ -27,7 +27,7 @@ spec:
       name: Clone Repository
       action: custom:git-clone
       input:
-        repoUrl: https://${{ parameters.repoUrl }}
+        repoUrl: ${{ parameters.repoUrl }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
 
     - id: analyze
