@@ -36,29 +36,3 @@ spec:
       input:
         targetPath: C:\Backstageapp\myapp\workspace\repo
 
-    - id: publish
-      name: Publish Report
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
-        description: Cloud Readiness Assessment Report for ${{ parameters.name }}
-        repoUrl: ${{ parameters.repoUrl }}
-        files:
-          - /workspace/repo/report.json
-
-    - id: register
-      name: Register Component
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
-        catalogInfoPath: '/catalog-info.yaml'
-
-  output:
-    links:
-      - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
-      - title: Open in catalog
-        icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
-      - title: Cloud Readiness Report
-        url: ${{ steps['publish'].output.remoteUrl }}/blob/main/report.json
