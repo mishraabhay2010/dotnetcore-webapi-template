@@ -35,4 +35,10 @@ spec:
       action: custom:cloud-suitability-analyzer
       input:
         targetPath: C:\Backstageapp\myapp\workspace\repo
+  output:
+    links:
+      - title: Repository
+        url: ${{ parameters.repoUrl }}
+      - title: Cloud Readiness Report
+        url: /static/reports/export.html
 
