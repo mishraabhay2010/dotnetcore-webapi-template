@@ -35,6 +35,9 @@ spec:
       action: custom:cloud-suitability-analyzer
       input:
         targetPath: C:\Backstageapp\myapp\workspace\repo
+    - id: create-component
+      name: Create Component
+      action: catalog:register
   output:
     repoUrl: ${{ parameters.repoUrl }}
     links:
