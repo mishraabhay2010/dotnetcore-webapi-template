@@ -36,6 +36,7 @@ spec:
       input:
         targetPath: C:\Backstageapp\myapp\workspace\repo
   output:
+    repoUrl: ${{ parameters.repoUrl }}
     links:
       - title: Repository
         url: ${{ parameters.repoUrl }}
