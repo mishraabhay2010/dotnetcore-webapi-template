@@ -41,5 +41,5 @@ spec:
       - title: Repository
         url: ${{ parameters.repoUrl }}
       - title: Cloud Readiness Report
-        url: /cloud-readiness-report?repoUrl= ${{ parameters.repoUrl }}
+        url: /cloud-readiness-report
 
