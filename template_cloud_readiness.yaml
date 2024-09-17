@@ -41,5 +41,5 @@ spec:
       - title: Repository
         url: ${{ parameters.repoUrl }}
       - title: Cloud Readiness Report
-        url: /cloud-readiness-report
+        url: /cloud-readiness-report?task-id=${{ steps.analyze.output.taskId }}
 
