@@ -34,6 +34,7 @@ spec:
       name: Analyze Repository
       action: custom:cloud-suitability-analyzer
       input:
+        repoUrl: ${{ parameters.repoUrl }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
       output:
         taskId: ${{ steps.clone-repo.output.taskId }} # Ensure taskId is set here if available
