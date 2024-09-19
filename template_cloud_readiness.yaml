@@ -21,7 +21,7 @@ spec:
         targetBranch:
           title: Target branch with fix (if any)
           type: string
-          description: The name of the target brach  in which fix will be checked-in
+          description: The name of the target branch in which fix will be checked-in
         name:
           title: Component Name
           type: string
