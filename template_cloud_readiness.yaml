@@ -18,6 +18,10 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
+        targetBranch:
+          title: Target branch with fix (if any)
+          type: string
+          description: The name of the target brach  in which fix will be checked-in
         name:
           title: Component Name
           type: string
@@ -35,6 +39,7 @@ spec:
       action: custom:cloud-suitability-analyzer
       input:
         repoUrl: ${{ parameters.repoUrl }}
+        targetBranch: ${{ parameters.targetBranch }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
       output:
         taskId: ${{ steps.clone-repo.output.taskId }} # Ensure taskId is set here if available
