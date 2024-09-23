@@ -1,0 +1,105 @@
+format_version: 10
+pipelines:
+  testgocdapp:
+    group: testpipeline
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      git-20330a1:
+        git: https://github.com/abhaymorg/testgocdapp.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+    stages:
+    - build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          build:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - build
+                command: dotnet
+                run_if: passed
+    - test:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          test:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - test
+                command: dotnet
+                run_if: passed
+    - publish:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          publish:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - publish
+                - -o
+                - ./publish
+                command: dotnet
+                run_if: passed
+    - docker_build:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          docker_build:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - build
+                - -t
+                - testgocdapp:latest
+                - .
+                command: docker
+                run_if: passed
+    - deploy:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          deploy:
+            timeout: 0
+            tasks:
+            - exec:
+                arguments:
+                - run
+                - -d
+                - -p
+                - "5001:5001"
+                - --name
+                - testgocdapp
+                - testgocdapp:latest
+                command: docker
+                run_if: passed
