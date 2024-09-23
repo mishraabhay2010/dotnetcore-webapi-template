@@ -207,9 +207,9 @@ spec:
 					"roles": [],^
 					"allow_only_on_success": false^
 				  },
-				  "environment_variables": [],^Z
+				  "environment_variables": [],^
 				  "jobs": [^
-					{
+					{^
 					  "name": "deploy",^
 					  "environment_variables": [],^
 					  "tabs": [],^
@@ -230,7 +230,7 @@ spec:
 						  "run_if": "passed",^
 						  "type": "exec"^
 						},^
-						{
+						{^
 						  "command": "dotnet",^
 						  "timeout": -1.0,^
 						  "arguments": [^
