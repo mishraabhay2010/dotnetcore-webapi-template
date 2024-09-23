@@ -195,55 +195,6 @@ spec:
                     }^
                   ]^
                 },^
-				{^
-                  "name": "deploy",^
-                  "fetch_materials": true,^
-                  "never_cleanup_artifacts": false,^
-                  "clean_working_directory": false,^
-                  "approval": {^
-                    "type": "success",^
-                    "authorization": {^
-                      "users": [],^
-                      "roles": []^
-                    },^
-                    "allow_only_on_success": false^
-                  },^
-                  "environment_variables": [],^
-				  "jobs": [^
-					{^
-					  "name": "deploy",^
-					  "environment_variables": [],^
-					  "tabs": [],^
-					  "resources": [],^
-					  "artifacts": [],^
-					  "timeout": 0.0,^
-					  "tasks": [^
-						{^
-						  "command": "dotnet",^
-						  "timeout": -1.0,^
-						  "arguments": [^
-							"publish",^
-							"--configuration",^
-							"Release",^
-							"--output",^
-							"publish"^
-						  ],^
-						  "run_if": "passed",^
-						  "type": "exec"^
-						},^
-						{^
-						  "command": "dotnet",^
-						  "timeout": -1.0,^
-						  "arguments": [^
-							"publish/Dotnet.Samples.AspNetCore.WebApi.dll"^
-						  ],^
-						  "run_if": "passed",^
-						  "type": "exec"^
-						}^
-					  ]^
-					}^
-				  ]^
-                }^
               ]^
             }^
     
