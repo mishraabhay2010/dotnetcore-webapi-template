@@ -1,0 +1,8 @@
+site_name:  dotnet-Samples-AspNetCore-WebApi
+site_description: Documentation for the Dotnet.Samples.AspNetCore.WebApi. This API is a proof of concept for a Web API (Async) made with .NET 8 (LTS) and ASP.NET Core 8.0.
+plugins:
+  - techdocs-core
+nav:
+  - Getting Started: index.md
+  - About API: aboutApi.md
+  -API Endpoints: endpoints.md
