@@ -211,8 +211,8 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "cmd",^
-                            "arguments": ["iisreset /stop"]^
+                            "command": "powershell",^
+                            "arguments": ["-File","C:\\gocd\\adminacript.ps1","-Command","iisreset /stop"]^
                           }^
                         },^
                         {^
@@ -227,8 +227,8 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "cmd",^
-                            "arguments": ["iisreset /start"]^
+                            "command": "powershell",^
+                            "arguments": ["-File","C:\\gocd\\adminacript.ps1","-Command","iisreset /start"]^
                           }^
                         }^
                       ]^
