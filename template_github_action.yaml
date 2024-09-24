@@ -183,6 +183,41 @@ spec:
                       ]^
                     }^
                   ]^
+                },^
+                                {^
+                  "name": "publish",^
+                  "fetch_materials": false,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": true^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "publish",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "arguments": ["publish","-o","C:\\publish"]^
+                          }^
+                        }^
+                      ]^
+                    }^
+                  ]^
                 }^
               ]^
             }^
