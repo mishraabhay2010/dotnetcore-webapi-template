@@ -216,18 +216,15 @@ spec:
                       "tabs": [],^
                       "resources": [],^
                       "artifacts": [],^
-                      "timeout": 0.0,^
+                      "timeout": null,^
                       "tasks": [^
                         {^
-                          "command": "dotnet",^
-                          "timeout": -1.0,^
-                          "arguments": [^
-                            "publish",^
-                            "-o",^
-                            "C:\\publish"^
-                          ],^
-                          "run_if": "passed",^
-                          "type": "exec"^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "dotnet",^
+                            "arguments": ["publish","-o","C:\\publish"]^
+                          }^
                         }^
                       ]^
                     }^
