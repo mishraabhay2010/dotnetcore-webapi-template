@@ -5,4 +5,4 @@ plugins:
 nav:
   - Getting Started: index.md
   - About API: aboutApi.md
-  -API Endpoints: endpoints.md
+  - API Endpoints: endpoints.md
