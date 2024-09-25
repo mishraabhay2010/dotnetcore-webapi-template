@@ -42,10 +42,10 @@ spec:
         targetBranch: ${{ parameters.targetBranch }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
       output:
-        taskId: ${{ steps.clone-repo.output.taskId }} # Ensure taskId is set here if available
+        taskId: ${{ steps.clone-repo.outputs.taskId }} # Ensure taskId is set here if available
   output:
     repoUrl: ${{ parameters.repoUrl }}
     links:
       - title: Cloud Readiness Report
-        url: /cloud-readiness-report?taskId=${{steps.clone-repo.output.taskId }}
+        url: /cloud-readiness-report?taskId=${{steps.clone-repo.outputs.taskId }}
 
