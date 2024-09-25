@@ -33,6 +33,10 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
+        
+    - id: debug-task-id
+      name: Debug Task ID
+      run: echo "Task ID: ${{ steps.clone-repo.outputs.taskId }}"
 
     - id: analyze
       name: Analyze Repository
