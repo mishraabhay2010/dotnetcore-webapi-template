@@ -36,6 +36,7 @@ spec:
         
     - id: debug-task-id
       name: Debug Task ID
+      action: custom-debugtaskId
       run: echo ${{ steps.clone-repo.outputs.taskId }}
 
     - id: analyze
