@@ -47,5 +47,5 @@ spec:
     repoUrl: ${{ parameters.repoUrl }}
     links:
       - title: Cloud Readiness Report
-        url: /cloud-readiness-report?taskId=${{steps.clone-repo.outputs.taskId }} & taskId = {{steps.clone-repo.output.taskId }}
+        url: /cloud-readiness-report?taskId=${{steps.analyze.output.taskId }}
 
