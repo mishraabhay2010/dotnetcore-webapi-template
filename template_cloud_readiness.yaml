@@ -34,11 +34,6 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetPath: C:\Backstageapp\myapp\workspace\repo
         
-    - id: debug-task-id
-      name: Debug Task ID
-      action: custom-debugtaskId
-      run: echo ${{ steps.clone-repo.outputs.taskId }}
-
     - id: analyze
       name: Analyze Repository
       action: custom:cloud-suitability-analyzer
@@ -52,5 +47,5 @@ spec:
     repoUrl: ${{ parameters.repoUrl }}
     links:
       - title: Cloud Readiness Report
-        url: /cloud-readiness-report?taskId=${{steps.clone-repo.outputs.taskId }}
+        url: /cloud-readiness-report?taskId=${{steps.clone-repo.outputs.taskId }} & taskId = {{steps.clone-repo.output.taskId }}
 
