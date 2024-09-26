@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: dotnetcore-webapi-template-branch
-  title: Beckend Web API Repo
+  title: Create a new branch from master branch
   description: Template for creating a branch from master branch
   tags:
     - dotnetcore
