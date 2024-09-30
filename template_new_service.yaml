@@ -49,7 +49,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
-        methodrequirement: "Add new method to controller"
+        methodrequirement: ${{ parameters.methodrequirement }}
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
