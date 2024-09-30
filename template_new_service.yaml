@@ -50,8 +50,6 @@ spec:
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
         methodrequirement: ${{ parameters.methodrequirement }}
-      outputs:
-          dependentfiles: ${{ steps.create-method-controller.outputs.dependentfiles }}
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
