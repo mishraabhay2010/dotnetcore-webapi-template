@@ -1,7 +1,7 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: .net-webapi-new-service
+  name: net-webapi-new-service
   title: Create New Service Template
   description: Template to add a new service to a .NET Web API controller.
 spec:
