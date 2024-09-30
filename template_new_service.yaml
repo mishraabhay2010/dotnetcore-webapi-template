@@ -47,15 +47,9 @@ spec:
       action: custom:codegenerator
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        branchName: ${{ parameters.targetBranch }}
-        filePath: ${{ parameters.filename }}
-        commitMessage: "Add new method to controller"
-        content: |
-          // Add the new method to the controller file
-          public IActionResult NewMethod()
-          {
-              // Method implementation based on ${{ parameters.newMethodRequirement }}
-          }
+        targetBranch: ${{ parameters.targetBranch }}
+        filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
+        methodrequirement: "Add new method to controller"
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
