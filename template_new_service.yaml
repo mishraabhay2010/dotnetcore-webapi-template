@@ -29,13 +29,16 @@ spec:
           description: The name of the component to create
     - title: Controller File Name
       properties:
-        type: string
-        required: true
-        description: The name of the controller file where the new method will be added.
+        FileName:
+          type: string
+          required: true
+          description: The name of the controller file where the new method will be added.
     - title: New Method Requirement
-      type: string
-      required: true
-      description: Description of the new method to be implemented.
+       properties:
+         MethodRequirement:
+          type: string
+          required: true
+          description: Description of the new method to be implemented.
 
   steps:
     - id: create-method-controller
