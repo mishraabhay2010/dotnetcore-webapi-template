@@ -31,14 +31,16 @@ spec:
       properties:
         filename:
           type: string
-          required: true
           description: The name of the controller file where the new method will be added.
+      required:
+        -filename
     - title: New Method Requirement
       properties:
         methodrequirement:
           type: string
-          required: true
           description: Description of the new method to be implemented.
+      required:
+        -methodrequirement
 
   steps:
     - id: create-method-controller
