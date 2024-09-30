@@ -58,7 +58,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: `Add method definition for ${{ steps['create-method-controller'].output.methodName }}`
+        methodrequirement: Add method definition for ${{ steps['create-method-controller'].output.methodName }}
 
     - id: implement-service-method
       name: Implement Service Method
