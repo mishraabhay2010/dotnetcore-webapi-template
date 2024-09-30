@@ -23,24 +23,23 @@ spec:
           title: Target branch with fix (if any)
           type: string
           description: The name of the target branch in which fix will be checked-in
-        name:
-          title: Component Name
-          type: string
-          description: The name of the component to create
+      required:
+        - repoUrl
+        - targetBranch
     - title: Controller File Name
       properties:
         filename:
           type: string
           description: The name of the controller file where the new method will be added.
       required:
-        -filename
+        - filename
     - title: New Method Requirement
       properties:
         methodrequirement:
           type: string
           description: Description of the new method to be implemented.
       required:
-        -methodrequirement
+        - methodrequirement
 
   steps:
     - id: create-method-controller
