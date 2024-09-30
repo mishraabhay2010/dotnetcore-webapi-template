@@ -65,19 +65,10 @@ spec:
       action: github:actions
       input:
         repoUrl: ${{ parameters.repoUrl }}
-        branchName: ${{ parameters.targetBranch }}
-        filePath: 'path/to/service/Service.cs'
-        commitMessage: "Implement new method in service"
-        content: |
-          // Implement the new method in the service class
-          public class Service : IService
-          {
-              public void NewMethod()
-              {
-                  // Business logic implementation based on ${{ parameters.methodrequirement }}
-              }
-          }
-
+        targetBranch: ${{ parameters.targetBranch }}
+        filePath: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
+        methodrequirement: Add method implementation for ${{ steps['create-method-controller'].output.methodName }}
+        
     - id: raise-pull-request
       name: Raise Pull Request
       action: github:actions
