@@ -62,7 +62,7 @@ spec:
 
     - id: implement-service-method
       name: Implement Service Method
-      action: github:actions
+      action: custom:codegenerator
       input:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
