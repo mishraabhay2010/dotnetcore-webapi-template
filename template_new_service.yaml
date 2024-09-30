@@ -44,7 +44,7 @@ spec:
   steps:
     - id: create-method-controller
       name: Create Method in Controller
-      action: github:actions
+      action: custom:codegenerator
       input:
         repoUrl: ${{ parameters.repoUrl }}
         branchName: ${{ parameters.targetBranch }}
