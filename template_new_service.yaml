@@ -58,7 +58,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/IPlayerService.cs
-        methodrequirement: "${{ steps.create-method-controller.outputs.dependentfiles }}"
+        methodrequirement: "${{ steps.create-method-controller.output.dependentfiles }}"
 
     - id: implement-service-method
       name: Implement Service Method
