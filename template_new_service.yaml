@@ -29,13 +29,13 @@ spec:
           description: The name of the component to create
     - title: Controller File Name
       properties:
-        FileName:
+        filename:
           type: string
           required: true
           description: The name of the controller file where the new method will be added.
     - title: New Method Requirement
       properties:
-        MethodRequirement:
+        methodrequirement:
           type: string
           required: true
           description: Description of the new method to be implemented.
@@ -47,7 +47,7 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         branchName: ${{ parameters.targetBranch }}
-        filePath: ${{ parameters.controllerFileName }}
+        filePath: ${{ parameters.filename }}
         commitMessage: "Add new method to controller"
         content: |
           // Add the new method to the controller file
