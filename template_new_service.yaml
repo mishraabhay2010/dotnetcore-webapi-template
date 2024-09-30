@@ -1,0 +1,119 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: .net-webapi-new-service
+  title: Create New Service Template
+  description: Template to add a new service to a .NET Web API controller.
+spec:
+  owner: team
+  type: service
+
+  parameters:
+    - title: Repository Information
+      properties:
+        repoUrl:
+          title: GitHub Repository URL
+          type: string
+          description: The URL of the GitHub repository to assess
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        targetBranch:
+          title: Target branch with fix (if any)
+          type: string
+          description: The name of the target branch in which fix will be checked-in
+        name:
+          title: Component Name
+          type: string
+          description: The name of the component to create
+    - title: Controller File Name
+      type: string
+      required: true
+      description: The name of the controller file where the new method will be added.
+    - title: New Method Requirement
+      type: string
+      required: true
+      description: Description of the new method to be implemented.
+
+  steps:
+    - id: create-method-controller
+      name: Create Method in Controller
+      action: github:actions
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: ${{ parameters.targetBranch }}
+        filePath: ${{ parameters.controllerFileName }}
+        commitMessage: "Add new method to controller"
+        content: |
+          // Add the new method to the controller file
+          public IActionResult NewMethod()
+          {
+              // Method implementation based on ${{ parameters.newMethodRequirement }}
+          }
+
+    - id: create-method-service-interface
+      name: Create Method in Service Interface
+      action: github:actions
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: ${{ parameters.targetBranch }}
+        filePath: 'path/to/service/interface/IService.cs'
+        commitMessage: "Add new method definition to service interface"
+        content: |
+          // Add the new method definition to the service interface
+          public interface IService
+          {
+              void NewMethod();
+          }
+
+    - id: implement-service-method
+      name: Implement Service Method
+      action: github:actions
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: ${{ parameters.targetBranch }}
+        filePath: 'path/to/service/Service.cs'
+        commitMessage: "Implement new method in service"
+        content: |
+          // Implement the new method in the service class
+          public class Service : IService
+          {
+              public void NewMethod()
+              {
+                  // Business logic implementation based on ${{ parameters.newMethodRequirement }}
+              }
+          }
+
+    - id: raise-pull-request
+      name: Raise Pull Request
+      action: github:actions
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        sourceBranch: ${{ parameters.targetBranch }}
+        targetBranch: master
+        title: "New Method Implementation"
+        description: "This PR includes the implementation of a new method in the controller and service."
+
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: This is ${{ parameters.name }}
+        repoUrl: ${{ parameters.repoUrl }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'
+
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps['publish'].output.remoteUrl }}
+      - title: Open in catalog
+        icon: catalog
+        entityRef: ${{ steps['register'].output.entityRef }}
