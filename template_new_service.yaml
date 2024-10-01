@@ -53,7 +53,7 @@ spec:
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
-      action: custom:codegenerator
+      action: custom:codegenerator1
       input:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
@@ -62,7 +62,7 @@ spec:
 
     - id: implement-service-method
       name: Implement Service Method
-      action: custom:codegenerator
+      action: custom:codegenerator1
       input:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
