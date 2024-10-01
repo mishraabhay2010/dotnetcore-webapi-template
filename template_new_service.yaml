@@ -23,9 +23,18 @@ spec:
           title: Target branch with fix (if any)
           type: string
           description: The name of the target branch in which fix will be checked-in
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
       required:
         - repoUrl
         - targetBranch
+        - owner
     - title: Controller File Name
       properties:
         filename:
