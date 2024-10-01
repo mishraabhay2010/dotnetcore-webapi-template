@@ -87,18 +87,14 @@ spec:
         
     - id: raise-pull-request
       name: Raise Pull Request
-      action: github:actions
+      action: github:create-pull-request
       input:
         repoUrl: ${{ parameters.repoUrl }}
         sourceBranch: ${{ parameters.targetBranch }}
-        targetBranch: master
-        title: "New Method Implementation"
-        description: "This PR includes the implementation of a new method in the controller and service."
+        destinationBranch: master
+        pullRequestTitle: "New Method Implementation"
 
   output:
     links:
-      - title: Repository
-        url: ${{ steps['publish'].output.remoteUrl }}
-      - title: Open in catalog
-        icon: catalog
-        entityRef: ${{ steps['register'].output.entityRef }}
+      - title: PR
+        url: ${{ steps['raise-pull-request'].output.pullRequestUrl }}
