@@ -58,7 +58,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: Add method definition for ${{ steps['create-method-controller'].output.methodName }}
+        methodrequirement: Add method definition for ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
 
     - id: implement-service-method
       name: Implement Service Method
@@ -66,8 +66,8 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
-        filePath: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: Add method implementation for ${{ steps['create-method-controller'].output.methodName }}
+        filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
+        methodrequirement: Add method implementation for ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
         
     - id: raise-pull-request
       name: Raise Pull Request
