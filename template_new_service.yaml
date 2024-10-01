@@ -42,6 +42,13 @@ spec:
         - methodrequirement
 
   steps:
+    - id: create-branch
+      name: Create Branch
+      action: github:create-branch
+      input:
+        owner: ${{ parameters.owner }}
+        sourceBranch: ${{ parameters.repoUrl }}
+        destinationBranch: ${{ parameters.targetBranch }}
     - id: create-method-controller
       name: Create Method in Controller
       action: custom:codegenerator
