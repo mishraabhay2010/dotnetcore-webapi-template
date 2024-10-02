@@ -74,7 +74,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: Add method definition for ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
+        methodrequirement: Add method definition in interface for this implementation. You can identify interface method name from following code details.   ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
 
     - id: implement-service-method
       name: Implement Service Method
