@@ -83,7 +83,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-service-interface'].output.dependentFileName }}
-        methodrequirement: Add method implementation for ${{ steps['create-method-service-interface'].output.methodName }} . Method return type must be  ValueTask<Player?> . Initial prompt is ${{ parameters.methodrequirement }}
+        methodrequirement: Add method implementation for ${{ steps['create-method-service-interface'].output.methodName }} . Method return type must be  ValueTask<Player?> . Initial prompt is ${{ parameters.methodrequirement }} .You should not delete any existing other method code and do not add any extra string  like ``` csharp
         
     - id: raise-pull-request
       name: Raise Pull Request
