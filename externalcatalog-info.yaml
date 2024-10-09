@@ -1,0 +1,11 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ExternalRepo
+  description: External Repo 
+  annotations:
+    backstage.io/source-location: url:https://gitlab.com/gitlab-examples/ops/gitops-demo/cluster-management
+spec:
+  type: service
+  lifecycle: production
+  owner: team-a
