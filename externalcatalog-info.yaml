@@ -9,4 +9,3 @@ spec:
   type: service,innersource
   lifecycle: production
   owner: team-a
-  projecttype:innersource
