@@ -1,0 +1,53 @@
+apiVersion: backstage.io/v1alpha1
+kind: Template
+metadata:
+  name: user-registration
+  title: User Registration
+  description: Template for registering a new user entity
+spec:
+  owner: team-b
+  type: service
+  parameters:
+    - title: User Information
+      required:
+        - name
+        - displayName
+        - email
+        - roles
+        - team
+      properties:
+        name:
+          title: User Name
+          type: string
+        displayName:
+          title: Display Name
+          type: string
+        email:
+          title: Email
+          type: string
+        roles:
+          title: Roles
+          type: array
+          items:
+            type: string
+        team:
+          title: Team
+          type: string
+  steps:
+    - id: register-user
+      name: Register User
+      action: catalog:register
+      input:
+        catalogInfo:
+          apiVersion: backstage.io/v1alpha1
+          kind: User
+          metadata:
+            name: ${{ parameters.name }}
+          spec:
+            profile:
+              displayName: ${{ parameters.displayName }}
+              email: ${{ parameters.email }}
+            memberOf:
+              - ${{ parameters.team }}
+            roles: ${{ parameters.roles }}
+
