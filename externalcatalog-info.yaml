@@ -6,6 +6,6 @@ metadata:
   annotations:
     backstage.io/source-location: url:https://gitlab.com/gitlab-examples/ops/gitops-demo/cluster-management
 spec:
-  type: [service,innersource]
+  type: service,innersource
   lifecycle: production
   owner: team-a
