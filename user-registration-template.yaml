@@ -5,7 +5,7 @@ metadata:
   title: User Registration
   description: Template for registering a new user entity
 spec:
-  owner: team-b
+  owner: team-a
   type: service
   parameters:
     - title: User Information
@@ -46,18 +46,6 @@ spec:
               - github.com
 
   steps:
-    - id: fetch-base
-      name: Fetch Base
-      action: fetch:template
-      input:
-        url: ${{ parameters.repoUrl }}
-        values:
-          name: ${{ parameters.name }}
-          displayName: ${{ parameters.displayName }}
-          email: ${{ parameters.email }}
-          roles: ${{ parameters.roles }}
-          team: ${{ parameters.team }}
-
     - id: register-user
       name: Register User
       action: catalog:register
@@ -74,9 +62,3 @@ spec:
             memberOf:
               - ${{ parameters.team }}
             roles: ${{ parameters.roles }}
-
-    - id: publish
-      name: Publish
-      action: publish:github
-      input:
-        allowedHosts: ['github.com']
