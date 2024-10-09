@@ -33,7 +33,31 @@ spec:
         team:
           title: Team
           type: string
+    - title: Repository Information
+      required:
+        - repoUrl
+      properties:
+        repoUrl:
+          title: Repository Location
+          type: string
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+
   steps:
+    - id: fetch-base
+      name: Fetch Base
+      action: fetch:template
+      input:
+        url: ${{ parameters.repoUrl }}
+        values:
+          name: ${{ parameters.name }}
+          displayName: ${{ parameters.displayName }}
+          email: ${{ parameters.email }}
+          roles: ${{ parameters.roles }}
+          team: ${{ parameters.team }}
+
     - id: register-user
       name: Register User
       action: catalog:register
@@ -51,3 +75,8 @@ spec:
               - ${{ parameters.team }}
             roles: ${{ parameters.roles }}
 
+    - id: publish
+      name: Publish
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
