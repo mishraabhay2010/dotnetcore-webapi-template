@@ -59,6 +59,11 @@ spec:
         owner: ${{ parameters.owner }}
         sourceBranch: ${{ parameters.repoUrl }}
         destinationBranch: ${{ parameters.targetBranch }}
+    - id: fetch-jira-issue
+      name: Fetch Jira issue
+      action: custom:jiraconnector
+      input:
+        jiraId: ${{ parameters.jiraId }}
     - id: create-method-controller
       name: Create Method in Controller
       action: custom:codegenerator
@@ -66,7 +71,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
-        methodrequirement: test
+        methodrequirement: ${{ steps['fetch-jira-issue'].output.description }}
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
