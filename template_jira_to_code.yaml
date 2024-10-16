@@ -9,6 +9,13 @@ spec:
   type: service
 
   parameters:
+    -title: Jira Ticket Information
+    properties:
+      jiraId:
+        title: Jira ticket Id
+        type: string
+      required:
+        -jiraId
     - title: Repository Information
       properties:
         repoUrl:
