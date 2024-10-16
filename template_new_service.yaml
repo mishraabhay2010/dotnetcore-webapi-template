@@ -5,7 +5,7 @@ metadata:
   title: Create New Service Template
   description: Template to add a new service to a .NET Web API controller.
 spec:
-  owner: team
+  owner: team-a
   type: service
 
   parameters:
