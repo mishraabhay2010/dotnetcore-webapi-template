@@ -2,14 +2,14 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: jira-to-code
-  title: Jira ID to code Template 
-  description: Template to generate and add new method 
+  title: Jira ticket to code template 
+  description: Template to generate programming code using Jira Description 
 spec:
-  owner: team-A
+  owner: team
   type: service
 
   parameters:
-    -title: Repository Information
+    - title: Repository Information
       properties:
         repoUrl:
           title: GitHub Repository URL
