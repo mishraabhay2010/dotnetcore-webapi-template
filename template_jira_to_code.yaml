@@ -16,7 +16,7 @@ spec:
         type: string
       required:
         -jiraId
-    - title: Repository Information
+    -title: Repository Information
       properties:
         repoUrl:
           title: GitHub Repository URL
