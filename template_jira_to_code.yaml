@@ -1,0 +1,100 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: jira-to-code
+  title: Jira ID to code Template 
+  description: Template to generate and add new method 
+spec:
+  owner: team-A
+  type: service
+
+  parameters:
+    - title: Repository Information
+      properties:
+        repoUrl:
+          title: GitHub Repository URL
+          type: string
+          description: The URL of the GitHub repository to assess
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        targetBranch:
+          title: Target branch with fix (if any)
+          type: string
+          description: The name of the target branch in which fix will be checked-in
+        owner:
+          title: Owner
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
+      required:
+        - repoUrl
+        - targetBranch
+        - owner
+    - title: Controller File Name
+      properties:
+        filename:
+          type: string
+          description: The name of the controller file where the new method will be added.
+      required:
+        - filename
+    - title: New Method Requirement
+      properties:
+        methodrequirement:
+          type: string
+          description: Description of the new method to be implemented.
+      required:
+        - methodrequirement
+
+  steps:
+    - id: create-branch
+      name: Create Branch
+      action: github:create-branch
+      input:
+        owner: ${{ parameters.owner }}
+        sourceBranch: ${{ parameters.repoUrl }}
+        destinationBranch: ${{ parameters.targetBranch }}
+    - id: create-method-controller
+      name: Create Method in Controller
+      action: custom:codegenerator
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        targetBranch: ${{ parameters.targetBranch }}
+        filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
+        methodrequirement: ${{ parameters.methodrequirement }}
+
+    - id: create-method-service-interface
+      name: Create Method in Service Interface
+      action: custom:codegenerator
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        targetBranch: ${{ parameters.targetBranch }}
+        filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
+        methodrequirement: Add DependentMethod definition in interface for this implementation. Method return type must be  ValueTask<Player?> .You can identify interface method name from DependentMethod details.   ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
+
+    - id: implement-service-method
+      name: Implement Service Method
+      action: custom:codegenerator
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        targetBranch: ${{ parameters.targetBranch }}
+        filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-service-interface'].output.dependentFileName }}
+        methodrequirement: Add method implementation for ${{ steps['create-method-service-interface'].output.methodName }} . Method return type must be  ValueTask<Player?> and it must be production ready code . Initial prompt is ${{ parameters.methodrequirement }} .You should not delete any existing other method code. return programming code without any extra explaination. 
+        
+    - id: raise-pull-request
+      name: Raise Pull Request
+      action: github:create-pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        sourceBranch: ${{ parameters.targetBranch }}
+        destinationBranch: master
+        pullRequestTitle: "New Method Implementation"
+
+  output:
+    links:
+      - title: PR
+        url: ${{ steps['raise-pull-request'].output.pullRequestUrl }}
