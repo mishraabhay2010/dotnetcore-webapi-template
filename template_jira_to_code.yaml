@@ -15,7 +15,7 @@ spec:
         title: Jira ticket Id
         type: string
       required:
-        -jiraId
+        - jiraId
     -title: Repository Information
       properties:
         repoUrl:
