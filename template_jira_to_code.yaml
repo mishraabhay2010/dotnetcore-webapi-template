@@ -50,13 +50,6 @@ spec:
           description: The name of the controller file where the new method will be added.
       required:
         - filename
-    - title: New Method Requirement
-      properties:
-        methodrequirement:
-          type: string
-          description: Description of the new method to be implemented.
-      required:
-        - methodrequirement
 
   steps:
     - id: create-branch
@@ -73,7 +66,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Controllers/${{ parameters.filename }}
-        methodrequirement: ${{ parameters.methodrequirement }}
+        methodrequirement: test
 
     - id: create-method-service-interface
       name: Create Method in Service Interface
