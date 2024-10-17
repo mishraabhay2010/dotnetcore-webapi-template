@@ -1,0 +1,32 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: jira-to-code-AIForce
+  title: Jira ticket to code template powered by AIForce
+  description: Template to generate programming code using Jira Description powered by AIForce
+spec:
+  owner: team-a
+  type: service
+
+  parameters:
+    - title: Jira Ticket Information
+      properties:
+        jiraId:
+          title: Jira ticket ID
+          type: string
+          description: Jira ticket ID
+      required:
+        - jiraId
+
+  steps:
+    - id: fetch-jira-issue
+      name: Fetch Jira issue
+      action: custom:jiraconnector
+      input:
+        jiraId: ${{ parameters.jiraId }}
+    
+
+  output:
+    links:
+      - title: JiraTicket
+        url: ${{ steps['fetch-jira-issue'].output.filePath }}
