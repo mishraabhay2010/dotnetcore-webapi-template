@@ -24,9 +24,15 @@ spec:
       action: custom:jiraconnector
       input:
         jiraId: ${{ parameters.jiraId }}
+    - id: aiforce-data-prep
+      name: AIForce data Preperation
+      action: aiforce:dataprep
+      input:
+        filepath: ${{ steps['fetch-jira-issue'].output.filePath }}
     
 
   output:
     links:
       - title: JiraTicket
-        url: ${{ steps['fetch-jira-issue'].output.filePath }}
+        url: ${{ steps['aiforce-data-prep'].output.latestData }}
+    
