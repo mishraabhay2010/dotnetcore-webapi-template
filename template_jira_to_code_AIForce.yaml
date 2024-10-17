@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: jira-to-code-AIForce
-  title: Template for Jira ticket to code powered by AIForce
+  title: Jira Ticket To Code Powered By AIForce
   description: Template to generate programming code using Jira description powered by AIForce
 spec:
   owner: team-a
