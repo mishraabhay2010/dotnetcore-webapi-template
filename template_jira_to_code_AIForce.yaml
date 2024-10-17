@@ -43,7 +43,7 @@ spec:
 
   output:
     links:
-      - title: JiraTicket
-        url: http://127.0.0.1:8001/usecase/download_pdf_report?req_value=%7B%22usecase_name%22%3A%22Code%20Generation%22%2C%22job_name%22%3A%22CG_20241017153104%22%2C%22execution_id%22%3A%2250%22%7D
+      - title: Report
+        url: /ai-force-report
         
     
