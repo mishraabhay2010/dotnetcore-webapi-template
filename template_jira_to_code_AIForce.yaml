@@ -15,8 +15,13 @@ spec:
           title: Jira ticket ID
           type: string
           description: Jira ticket ID
+        programminglang:
+          title: Programming Language
+          type: string
+          description: Programming Language
       required:
         - jiraId
+        - programminglang
 
   steps:
     - id: fetch-jira-issue
@@ -29,10 +34,16 @@ spec:
       action: aiforce:dataprep
       input:
         filepath: ${{ steps['fetch-jira-issue'].output.filePath }}
-    
+    - id: aiforce-usecase-execution
+      name: AIForce Usecase execution
+      action: aiforce:usecaseexecution
+      input:
+        data: ${{ steps['aiforce-data-prep'].output.latestData }}
+        programminglang: ${{ parameters.programminglang }}
 
   output:
     links:
       - title: JiraTicket
         url: ${{ steps['aiforce-data-prep'].output.latestData }}
+        
     
