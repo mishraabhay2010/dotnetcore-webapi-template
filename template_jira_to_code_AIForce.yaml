@@ -44,6 +44,6 @@ spec:
   output:
     links:
       - title: Report
-        url: /ai-force-report
+        url: /ai-force-report?job_name=${{ steps['aiforce-usecase-execution'].output.job_name }}&execution_id=${{ steps['aiforce-usecase-execution'].output.execution_id }}
         
     
