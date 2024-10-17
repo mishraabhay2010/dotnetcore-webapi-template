@@ -2,8 +2,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: jira-to-code-AIForce
-  title: Jira ticket to code template powered by AIForce
-  description: Template to generate programming code using Jira Description powered by AIForce
+  title: Template for Jira ticket to code powered by AIForce
+  description: Template to generate programming code using Jira description powered by AIForce
 spec:
   owner: team-a
   type: service
@@ -12,30 +12,38 @@ spec:
     - title: Jira Ticket Information
       properties:
         jiraId:
-          title: Jira ticket ID
+          title: Jira Ticket ID
           type: string
-          description: Jira ticket ID
+          description: Jira Ticket ID
         programminglang:
           title: Programming Language
           type: string
           description: Programming Language
+          enum:
+            - C#
+            - Python
+            - Java
+            - ReactJS
+            - C++
+            - C
+            - AngularJS
       required:
         - jiraId
         - programminglang
 
   steps:
     - id: fetch-jira-issue
-      name: Fetch Jira issue
+      name: Fetch Jira Issue
       action: custom:jiraconnector
       input:
         jiraId: ${{ parameters.jiraId }}
     - id: aiforce-data-prep
-      name: AIForce data Preperation
+      name: AIForce Data Preparation
       action: aiforce:dataprep
       input:
         filepath: ${{ steps['fetch-jira-issue'].output.filePath }}
     - id: aiforce-usecase-execution
-      name: AIForce Usecase execution
+      name: AIForce Usecase Execution
       action: aiforce:usecaseexecution
       input:
         data: ${{ steps['aiforce-data-prep'].output.latestData }}
@@ -45,5 +53,3 @@ spec:
     links:
       - title: Report
         url: /ai-force-report?job_name=${{ steps['aiforce-usecase-execution'].output.job_name }}&execution_id=${{ steps['aiforce-usecase-execution'].output.execution_id }}
-        
-    
