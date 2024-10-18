@@ -2,7 +2,7 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: dotnetcore-webapi-template-pr-action
-  title: New Repository Creation for .NET Web API
+  title: New Repository Creation for .NET Web API Application
   description: Template for creating a .NET Core Web API project with .NET 8 with PR action
   tags:
     - dotnetcore
