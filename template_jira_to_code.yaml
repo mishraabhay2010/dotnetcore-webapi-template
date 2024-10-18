@@ -80,7 +80,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: Define the DependentMethod in the interface for this implementation. The method should return a ValueTask<Player?>. You can determine the interface method name from the DependentMethod details. {{ steps['create−method−controller'].output.methodName}} .The initial prompt was{{ steps['fetch-jira-issue'].output.description }}.
+        methodrequirement: Define the DependentMethod in the interface for this implementation. The method should return a ValueTask<Player?>. You can determine the interface method name from the DependentMethod details. ${{ steps['create−method−controller'].output.methodName}} .The initial prompt was ${{ steps['fetch-jira-issue'].output.description }}.
 
     - id: implement-service-method
       name: Implement Service Method
@@ -89,7 +89,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-service-interface'].output.dependentFileName }}
-        methodrequirement: Implement the method {{ steps['create−method−service−interface'].output.methodName }} .The method should returnaValue Task<Player?> and must be production−ready.The initial prompt was{{ steps['fetch-jira-issue'].output.description }}. Do not delete any existing methods. Return only the programming code without any additional explanation. 
+        methodrequirement: Implement the method ${{ steps['create−method−service−interface'].output.methodName }} .The method should returnaValue Task<Player?> and must be production−ready.The initial prompt was ${{ steps['fetch-jira-issue'].output.description }}. Do not delete any existing methods. Return only the programming code without any additional explanation. 
         
     - id: raise-pull-request
       name: Raise Pull Request
