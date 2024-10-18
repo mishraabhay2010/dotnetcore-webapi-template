@@ -9,6 +9,7 @@ metadata:
     github.com/project-slug: ${{values.destination.owner + "/" + values.destination.repo}}
     backstage.io/techdocs-ref: dir:.
     gocd.org/pipelines: ${{values.pipelineName }}
+    jira/project-key: SCRUM
 spec:
   type: service
   lifecycle: production
