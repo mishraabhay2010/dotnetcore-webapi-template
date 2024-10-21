@@ -1,0 +1,65 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: azure-vm-template
+  title: Azure VM Template
+  description: Template to create an Azure VM for 2 days
+spec:
+  owner: your-team
+  type: service
+
+  parameters:
+    - title: VM Configuration
+      properties:
+        vmName:
+          title: VM Name
+          type: string
+        resourceGroupName:
+          title: Resource Group Name
+          type: string
+        location:
+          title: Location
+          type: string
+          enum:
+            - eastus
+            - westus
+            - westeurope
+            - southeastasia
+        adminUsername:
+          title: Admin Username
+          type: string
+        adminPassword:
+          title: Admin Password
+          type: string
+          format: password
+
+  steps:
+    - id: fetch-arm-template
+      name: Fetch ARM Template
+      action: fetch:template
+      input:
+        url: https://github.com/your-repo/azure-arm-templates/blob/main/vm-template.json
+        values:
+          vmName: ${{ parameters.vmName }}
+          resourceGroupName: ${{ parameters.resourceGroupName }}
+          location: ${{ parameters.location }}
+          adminUsername: ${{ parameters.adminUsername }}
+          adminPassword: ${{ parameters.adminPassword }}
+
+    - id: deploy-arm-template
+      name: Deploy ARM Template
+      action: execute:azure-cli
+      input:
+        script: |
+          az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
+          az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file vm-template.json --parameters vmName=${{ parameters.vmName }} adminUsername=${{ parameters.adminUsername }} adminPassword=${{ parameters.adminPassword }}
+
+    - id: schedule-deletion
+      name: Schedule VM Deletion
+      action: execute:azure-cli
+      input:
+        script: |
+          az vm delete --resource-group ${{ parameters.resourceGroupName }} --name ${{ parameters.vmName }} --yes --no-wait --delete-os-disk --delete-data-disks
+          az group delete --name ${{ parameters.resourceGroupName }} --yes --no-wait
+          echo "VM and Resource Group will be deleted in 2 days"
+          echo "sleep 172800 && az vm delete --resource-group ${{ parameters.resourceGroupName }} --name ${{ parameters.vmName }} --yes --no-wait --delete-os-disk --delete-data-disks && az group delete --name ${{ parameters.resourceGroupName }} --yes --no-wait" | at now + 2 days
