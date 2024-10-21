@@ -28,10 +28,11 @@ spec:
         adminUsername:
           title: Admin Username
           type: string
+          ui:field: Secret
         adminPassword:
           title: Admin Password
           type: string
-          format: password
+          ui:field: Secret
 
   steps:
     - id: fetch-arm-template
@@ -43,8 +44,8 @@ spec:
           vmName: ${{ parameters.vmName }}
           resourceGroupName: ${{ parameters.resourceGroupName }}
           location: ${{ parameters.location }}
-          adminUsername: ${{ parameters.adminUsername }}
-          adminPassword: ${{ parameters.adminPassword }}
+          adminUsername: ${{ secrets.adminUsername }}
+          adminPassword: ${{ secrets.adminPassword }}
 
     - id: deploy-arm-template
       name: Deploy ARM Template
@@ -52,7 +53,7 @@ spec:
       input:
         script: |
           az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
-          az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file vm-template.json --parameters vmName=${{ parameters.vmName }} adminUsername=${{ parameters.adminUsername }} adminPassword=${{ parameters.adminPassword }}
+          az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file vm-template.json --parameters vmName=${{ parameters.vmName }} adminUsername=${{ secrets.adminUsername }} adminPassword=${{ secrets.adminPassword }}
 
     - id: schedule-deletion
       name: Schedule VM Deletion
