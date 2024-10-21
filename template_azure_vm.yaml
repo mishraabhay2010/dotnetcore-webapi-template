@@ -39,7 +39,7 @@ spec:
       name: Fetch ARM Template
       action: fetch:template
       input:
-        url: https://github.com/your-repo/azure-arm-templates/blob/main/vm-template.json
+        url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
         values:
           vmName: ${{ parameters.vmName }}
           resourceGroupName: ${{ parameters.resourceGroupName }}
