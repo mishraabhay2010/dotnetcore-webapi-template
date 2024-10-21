@@ -5,7 +5,7 @@ metadata:
   title: Azure VM Template
   description: Template to create an Azure VM for 2 days
 spec:
-  owner: your-team
+  owner: team-a
   type: service
 
   parameters:
