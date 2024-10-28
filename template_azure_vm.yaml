@@ -40,7 +40,7 @@ spec:
       action: fetch:plain:file
       input:
         url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
-        targetPath: myapp
+        targetPath: file
     - id: print-working-directory
       name: Print Working Directory
       action: shell:script
@@ -53,6 +53,6 @@ spec:
 
     - id: list-files
       name: List Files
-      action: shell:scriptasads
+      action: shell:script
       input:
-        script: ls -la mypath
+        script: ls -la file
