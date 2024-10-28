@@ -48,20 +48,3 @@ spec:
           adminUsername: ${{ secrets.adminUsername }}
           adminPassword: ${{ secrets.adminPassword }}
 
-    - id: deploy-arm-template
-      name: Deploy ARM Template
-      action: execute:azure-cli
-      input:
-        script: |
-          az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
-          az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file vm-template.json --parameters vmName=${{ parameters.vmName }} adminUsername=${{ secrets.adminUsername }} adminPassword=${{ secrets.adminPassword }}
-
-    - id: schedule-deletion
-      name: Schedule VM Deletion
-      action: execute:azure-cli
-      input:
-        script: |
-          az vm delete --resource-group ${{ parameters.resourceGroupName }} --name ${{ parameters.vmName }} --yes --no-wait --delete-os-disk --delete-data-disks
-          az group delete --name ${{ parameters.resourceGroupName }} --yes --no-wait
-          echo "VM and Resource Group will be deleted in 2 days"
-          echo "sleep 172800 && az vm delete --resource-group ${{ parameters.resourceGroupName }} --name ${{ parameters.vmName }} --yes --no-wait --delete-os-disk --delete-data-disks && az group delete --name ${{ parameters.resourceGroupName }} --yes --no-wait" | at now + 2 days
