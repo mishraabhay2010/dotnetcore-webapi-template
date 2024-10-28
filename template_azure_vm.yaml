@@ -49,7 +49,7 @@ spec:
           adminPassword: ${{ secrets.adminPassword }}
     - id: list-files
       name: List Files
-      action: shell:script
+      action: shell:script12
       input:
         script: ls -la mypath  
 
