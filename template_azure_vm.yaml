@@ -37,10 +37,9 @@ spec:
   steps:
     - id: fetch-arm-template
       name: Fetch ARM Template
-      action: fetch:plain:file
+      action: fetch:template
       input:
         url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
-        targetPath: mypath
         values:
           vmName: ${{ parameters.vmName }}
           resourceGroupName: ${{ parameters.resourceGroupName }}
