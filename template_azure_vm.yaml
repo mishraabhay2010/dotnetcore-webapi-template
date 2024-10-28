@@ -45,7 +45,11 @@ spec:
       name: Print Working Directory
       action: shell:script
       input:
-        script: pwd
+        script: |
+          echo "Current Working Directory:"
+          pwd
+          echo "Environment Variables:"
+          env
 
     - id: list-files
       name: List Files
