@@ -41,9 +41,14 @@ spec:
       input:
         url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
         targetPath: myapp
+    - id: print-working-directory
+      name: Print Working Directory
+      action: shell:script
+      input:
+        script: pwd
+
     - id: list-files
       name: List Files
       action: shell:script
       input:
-        script: ls -la myapp  
-
+        script: ls -la mypath
