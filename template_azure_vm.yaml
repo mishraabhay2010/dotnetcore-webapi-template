@@ -35,17 +35,11 @@ spec:
           ui:field: Secret
 
   steps:
-    - id: fetch-arm-template
+    - id: fetch:plain:file
       name: Fetch ARM Template
       action: fetch:template
       input:
         url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
-        values:
-          vmName: ${{ parameters.vmName }}
-          resourceGroupName: ${{ parameters.resourceGroupName }}
-          location: ${{ parameters.location }}
-          adminUsername: ${{ secrets.adminUsername }}
-          adminPassword: ${{ secrets.adminPassword }}
     - id: list-files
       name: List Files
       action: shell:script12
