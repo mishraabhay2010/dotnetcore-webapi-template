@@ -49,6 +49,6 @@ spec:
 
     - id: list-files
       name: List Files
-      action: shell:script
+      action: shell:scriptasads
       input:
         script: ls -la mypath
