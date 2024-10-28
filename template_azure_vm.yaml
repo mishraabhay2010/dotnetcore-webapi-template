@@ -40,7 +40,7 @@ spec:
       action: fetch:plain:file
       input:
         url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
-        targetPath: C:/Backstageapp/myapp/mypath
+        targetPath: mypath
         values:
           vmName: ${{ parameters.vmName }}
           resourceGroupName: ${{ parameters.resourceGroupName }}
