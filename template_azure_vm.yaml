@@ -47,13 +47,23 @@ spec:
         enum:
             - Standard_B1s
             - Standard_D2s_v5
+        bearerToken:
+          title: Bearer Token
+          type: string
+          ui:field: Secret
   steps:
-    - id: fetch-arm-template
-      name: Fetch ARM Template
-      action: fetch:plain:file
+    - id: create-window-vm
+      name: Create Windows Virtual Machine
+      action: vm:createAzureWindowsVm
       input:
-        url: https://github.com/mishraabhay2010/dotnetcore-webapi-template/blob/main/azure-arm-templates/vmwindow.json
-        targetPath: file
+        vmName: ${{ parameters.vmName }}
+        resourceGroupName: ${{ parameters.resourceGroupName }}
+        location: ${{ parameters.location }}
+        adminUsername: ${{ parameters.adminUsername }}
+        adminPassword: ${{ parameters.adminPassword }}
+        osVersion: ${{ parameters.osVersion }}
+        vmSize: ${{ parameters.vmSize }}
+        bearerToken: ${{ parameters.bearerToken }}
     - id: print-working-directory
       name: Print Working Directory
       action: shell:script
