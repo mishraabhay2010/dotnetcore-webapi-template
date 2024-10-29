@@ -59,7 +59,7 @@ spec:
         vmName: ${{ parameters.vmName }}
         resourceGroupName: ${{ parameters.resourceGroupName }}
         location: ${{ parameters.location }}
-        adminUsername: ${{ parameters.adminUsername }}
+        adminUserName: ${{ parameters.adminUsername }}
         adminPassword: ${{ parameters.adminPassword }}
         osVersion: ${{ parameters.osVersion }}
         vmSize: ${{ parameters.vmSize }}
