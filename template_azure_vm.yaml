@@ -33,7 +33,20 @@ spec:
           title: Admin Password
           type: string
           ui:field: Secret
-
+        osVersion:
+          title: OSVersion
+          type: string
+          enum:
+            - win10-22h2-pro
+            - win10-22h2-pro-g2
+            - 2022-datacenter-azure-edition
+            - 2022-datacenter-core-g2
+        vmSize:
+          title: Virtual Machine Size
+          type: string
+        enum:
+            - Standard_B1s
+            - Standard_D2s_v5
   steps:
     - id: fetch-arm-template
       name: Fetch ARM Template
