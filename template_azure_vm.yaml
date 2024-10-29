@@ -44,7 +44,7 @@ spec:
         vmSize:
           title: Virtual Machine Size
           type: string
-        enum:
+          enum:
             - Standard_B1s
             - Standard_D2s_v5
         bearerToken:
