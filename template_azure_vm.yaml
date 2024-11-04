@@ -32,8 +32,7 @@ spec:
         adminPassword:
           title: Admin Password
           type: string
-          ui:
-            widget: password
+          ui:widget: password
           minLength: 12
         osVersion:
           title: OSVersion
