@@ -33,6 +33,7 @@ spec:
           title: Admin Password
           type: string
           ui:field: Secret
+          minLength: 12
         osVersion:
           title: OSVersion
           type: string
