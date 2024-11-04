@@ -51,7 +51,6 @@ spec:
         bearerToken:
           title: Bearer Token
           type: string
-          ui:field: Secret
   steps:
     - id: create-window-vm
       name: Create Windows Virtual Machine
