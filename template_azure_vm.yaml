@@ -25,7 +25,7 @@ spec:
             - westus
             - westeurope
             - southeastasia
-        adminUsername:
+        adminUserName:
           title: Admin Username
           type: string
           ui:field: Secret
@@ -59,7 +59,7 @@ spec:
         vmName: ${{ parameters.vmName }}
         resourceGroupName: ${{ parameters.resourceGroupName }}
         location: ${{ parameters.location }}
-        adminUserName: ${{ parameters.adminUsername }}
+        adminUserName: ${{ parameters.adminUserName }}
         adminPassword: ${{ parameters.adminPassword }}
         osVersion: ${{ parameters.osVersion }}
         vmSize: ${{ parameters.vmSize }}
