@@ -61,7 +61,6 @@ spec:
           ui:options:
             allowedHosts:
               - github.com
-      backstage:permissions:
     - title: GOCD Configuration
       description: Configuration for GOCD CI/CD
       required:
