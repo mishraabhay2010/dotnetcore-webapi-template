@@ -5,7 +5,7 @@ metadata:
   title: Jira ticket to code template 
   description: Template to generate programming code using Jira Description 
 spec:
-  owner: team-a
+  owner: team-b
   type: service
 
   parameters:
