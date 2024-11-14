@@ -15,6 +15,13 @@ spec:
   lifecycle: production
   owner: ${{values.owner | dump}}
   providesApis: [${{values.component_id}}]
+   # Properties for the Coder plugin are placed here
+  coder:
+    templateName: 'devcontainers'
+    mode: 'auto'
+    params:
+      repo: 'custom'
+      region: 'us-pittsburgh'
 ---
 apiVersion: backstage.io/v1alpha1
 kind: API
