@@ -1,0 +1,129 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: Inner-Sourcing
+  title: Create Inner Sourcing Template
+  description: Inner Sourcing Template for creating a new component for reuse within the organization.
+spec:
+  type: service
+  owner: team-b
+  parameters:
+    - title: Repository Information
+      properties:
+        primaryOwnerName:
+          title: Primary Owner Name 
+          type: string
+          description: Please provide the primary owner name
+        primaryOwnerEmail:
+          title: Primary Owner Email
+          type: string
+          description: Please provide the primary owner name
+        secondaryOwnerName:
+          title: Secondary Owner Name 
+          type: string
+          description: Please provide the Secondary owner name
+        secondaryOwnerEmail:
+          title: Secondary Owner Email
+          type: string
+          description: Please provide the Secondary owner name
+        sourceCodeUrl:
+          title: Source Code Url
+          type: string
+          description: The URL of the sourece code url
+          # ui:field: RepoUrlPicker
+          # ui:options:
+          #   allowedHosts:
+          #     - github.com
+          #     - gitlab.com
+          #     - bitbucket.org
+          #     - svn.com
+        component_type:
+          title: Component Type
+          type: string
+          description: Please provide the component type
+          enum: [Service, Website, Library, WebApi, Template]
+          default: Service
+        component_name:
+          title: Component Name
+          type: string
+          description: Please provide the component name
+        descriptionOfComponent:
+          title: Description
+          type: string
+          description: Please provide the description of the component
+        links:
+          title: Links
+          type: array
+          description: Please provide the links for Readme, Documentation, Process docs, etc..
+          items:
+            type: object
+            properties:
+              title:
+                title: Title
+                type: string
+                description: Please provide the title
+              url:
+                title: URL
+                type: string
+                description: Please provide the URL
+              icon:
+                title: Icon
+                type: string
+                description: Please provide the icon
+        tages:
+          title: Tags
+          type: string
+          description: Please provide the Tags in , separation
+        contributionWanted:
+          title: Contribution Wanted
+          type: string
+          description: Please provide the contribution wanted
+        installerLocation:
+          title: Installer Location
+          type: string
+          description: Please provide the installer location url
+      required:
+        - primaryOwnerName
+        - primaryOwnerEmail
+        - sourceCodeUrl
+        - component_type
+        - component_name
+        
+  steps:
+    - id: create-catelog-info
+      name: Create Catelog Info File
+      action: custom:create-catelog-info
+      input:
+        sourceCodeUrl: ${{ parameters.sourceCodeUrl }}
+        type: ${{ parameters.component_type }}
+        componentName: ${{ parameters.component_name }}
+        primaryName: ${{ parameters.primaryOwnerName }}
+        primaryEmail: ${{ parameters.primaryOwnerEmail }}
+        secondaryName: ${{ parameters.secondaryOwnerName }}
+        secondaryEmail: ${{ parameters.secondaryOwnerEmail }}
+        description: ${{ parameters.descriptionOfComponent }}
+        links: ${{ parameters.links }}
+        tags: ${{ parameters.tages }}
+        contributionWanted: ${{ parameters.contributionWanted }}
+        installerLocation: ${{ parameters.installerLocation }}
+
+    - id: push-to-repo
+      name: Push to Repository
+      action: custom:push-to-repo
+      input:
+        sourceCodeUrl: ${{ steps['create-catelog-info'].output.sourceCodeUrl }}
+        componentName: ${{ steps['create-catelog-info'].output.componentName }}
+
+    - id: register
+      name: Register
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['push-to-repo'].output.repoFullUrl }}
+        catalogInfoPath: "/${{ steps['push-to-repo'].output.componentName }}/catalog-info.yaml"    
+        
+  output:
+    sourceCodeUrl: ${{ parameters.sourceCodeUrl }}
+    links:
+      - title: Registered Component
+        url: /innersourcing
+   
