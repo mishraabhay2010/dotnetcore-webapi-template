@@ -1,0 +1,28 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: Delete-Component
+  title: Delete Component Template
+  description: Delete Component Template for deleting a component.
+spec:
+  type: service
+  owner: team-b
+  parameters:
+    - title: Component Information
+      properties:
+        componentName:
+          title: Component Name
+          type: string
+          description: Please provide the component name
+      required:
+        - componentName 
+  steps:
+    - id: delete-component
+      name:  Delete Component
+      action: custom:detele-component
+      input:
+        componentName: ${{ parameters.componentName }}
+  output:
+    sourceCodeUrl: ${{ parameters.componentName }}
+    links:
+      - title: Deleted the Component
