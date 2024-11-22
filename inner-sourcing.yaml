@@ -10,6 +10,10 @@ spec:
   parameters:
     - title: Repository Information
       properties:
+        repoBranchName:
+          title: Repository Branch Name
+          type: string
+          description: Please provide the branch name
         primaryOwnerName:
           title: Primary Owner Name 
           type: string
@@ -121,6 +125,7 @@ spec:
       name: Push to Repository
       action: custom:push-to-repo
       input:
+        repoBranchName: ${{ parameters.repoBranchName }}
         sourceCodeUrl: ${{ steps['create-catelog-info'].output.sourceCodeUrl }}
         componentName: ${{ steps['create-catelog-info'].output.componentName }}
 
@@ -135,5 +140,6 @@ spec:
     sourceCodeUrl: ${{ parameters.sourceCodeUrl }}
     links:
       - title: Registered Component
-        url: /catalog/inner-sourcing/component/${{ parameters.component_name }}
+        icon: catalog
+        entityRef: ${{ steps.register.output.entityRef }}
    
