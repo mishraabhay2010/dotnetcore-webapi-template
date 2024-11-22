@@ -96,6 +96,7 @@ spec:
         - sourceCodeUrl
         - component_type
         - component_name
+        - owner
         
   steps:
     - id: create-catelog-info
