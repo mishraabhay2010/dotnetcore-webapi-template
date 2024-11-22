@@ -135,5 +135,5 @@ spec:
     sourceCodeUrl: ${{ parameters.sourceCodeUrl }}
     links:
       - title: Registered Component
-        url: /innersourcing
+        url: /catalog/inner-sourcing/component/${{ parameters.component_name }}
    
