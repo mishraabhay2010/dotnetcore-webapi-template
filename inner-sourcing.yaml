@@ -26,6 +26,14 @@ spec:
           title: Secondary Owner Email
           type: string
           description: Please provide the Secondary owner name
+        owner:
+          title: Team
+          type: string
+          description: Owner of the component
+          ui:field: OwnerPicker
+          ui:options:
+            allowedKinds:
+              - Group
         sourceCodeUrl:
           title: Source Code Url
           type: string
@@ -106,6 +114,7 @@ spec:
         tags: ${{ parameters.tages }}
         contributionWanted: ${{ parameters.contributionWanted }}
         installerLocation: ${{ parameters.installerLocation }}
+        owner: ${{parameters.owner}}
 
     - id: push-to-repo
       name: Push to Repository
