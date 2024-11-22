@@ -101,6 +101,7 @@ spec:
         - component_type
         - component_name
         - owner
+        - repoBranchName
         
   steps:
     - id: create-catelog-info
