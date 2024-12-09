@@ -74,7 +74,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-controller'].output.dependentFileName }}
-        methodrequirement: Add Dependent Method definition in interface for this implementation and don't remove any existing methods. Method return type must be  ValueTask<Player?> .You can identify interface method name from Dependent Method details ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
+        methodrequirement: Add/Append new Method definition in interface and don't remove any existing other methods. Method return type must be public ValueTask<Player?> .You can identify interface method name from Dependent Method details ${{ steps['create-method-controller'].output.methodName }} . Initial prompt is ${{ parameters.methodrequirement }}
 
     - id: implement-service-method
       name: Implement Service Method
@@ -83,7 +83,7 @@ spec:
         repoUrl: ${{ parameters.repoUrl }}
         targetBranch: ${{ parameters.targetBranch }}
         filename: Dotnet.Samples.AspNetCore.WebApi/Services/${{ steps['create-method-service-interface'].output.dependentFileName }}
-        methodrequirement: Add new method implementation for ${{ steps['create-method-service-interface'].output.methodName }} without removing any existing implementation/methods. Method return type must be public ValueTask<Player?> and it must be production ready code . Initial prompt is ${{ parameters.methodrequirement }} . Return programming code without any extra explaination. 
+        methodrequirement: Add/Append new method implementation for ${{ steps['create-method-service-interface'].output.methodName }} without removing any existing methods. Method return type must be public ValueTask<Player?> and it must be production ready code . Initial prompt is ${{ parameters.methodrequirement }} . Return programming code without any extra explaination. 
         
     - id: raise-pull-request
       name: Raise Pull Request
