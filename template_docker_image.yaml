@@ -64,6 +64,15 @@ spec:
           title: GOCD Server URL
           type: string
           description: URL of the GOCD server
+    - title: Docker Image Configuration
+      description: Configuration for Docker Image
+      required:
+        - imageName
+      properties:
+        imageName:
+          title: Docker Image Name
+          type: string
+          description: Name of the Docker Image
 
   steps:
     - id: fetch-repository
@@ -213,7 +222,7 @@ spec:
                             "run_if": ["passed"],^
                             "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
                             "command": "docker",^
-                            "arguments": ["build","-tdotnetcoreimage","."],^
+                            "arguments": ["build","-t${{ parameters.imageName }}","."],^
                           }^
                         },^
                         {^
@@ -229,7 +238,7 @@ spec:
                           "attributes": {^
                             "run_if": ["passed"],^
                             "command": "docker",^
-                            "arguments": ["tag","dotnetcoreimage","sparccontainer.azurecr.io/dotnetcoreimage"]^
+                            "arguments": ["tag","${{ parameters.imageName }}","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
                           }^
                         },^
                         {^
@@ -237,7 +246,7 @@ spec:
                           "attributes": {^
                             "run_if": ["passed"],^
                             "command": "docker",^
-                            "arguments": ["push","sparccontainer.azurecr.io/dotnetcoreimage"]^
+                            "arguments": ["push","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
                           }^
                         },^
                       ]^
