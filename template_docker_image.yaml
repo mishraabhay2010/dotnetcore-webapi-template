@@ -184,7 +184,7 @@ spec:
                     }^
                   ]^
                 },^
-                                {^
+                {^
                   "name": "creatdockerimage",^
                   "fetch_materials": false,^
                   "never_cleanup_artifacts": false,^
@@ -211,9 +211,9 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
+                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
                             "command": "docker",^
                             "arguments": ["build","-tdotnetcoreimage","."],^
-			    "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
                           }^
                         },^
                         {^
@@ -232,14 +232,14 @@ spec:
                             "arguments": ["tag","dotnetcoreimage","sparccontainer.azurecr.io/dotnetcoreimage"]^
                           }^
                         },^
-						{^
+                        {^
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
                             "command": "docker",^
                             "arguments": ["push","sparccontainer.azurecr.io/dotnetcoreimage"]^
                           }^
-                        }^
+                        },^
                       ]^
                     }^
                   ]^
