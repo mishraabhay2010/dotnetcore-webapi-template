@@ -64,6 +64,15 @@ spec:
           title: GOCD Server URL
           type: string
           description: URL of the GOCD server
+    - title: Docker Image Configuration
+      description: Configuration for Docker Image
+      required:
+        - imageName
+      properties:
+        imageName:
+          title: Docker Image Name
+          type: string
+          description: Name of the Docker Image
 
   steps:
     - id: fetch-repository
