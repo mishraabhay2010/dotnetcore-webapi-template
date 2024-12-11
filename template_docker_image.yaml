@@ -220,8 +220,8 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "docker",^
-                            "arguments": ["build","-t${{ parameters.imageName }}","."],^
+                            "command": "powershell",^
+                            "arguments": ["docker","build","-t${{ parameters.imageName }}","."],^
                             "working_directory": "Dotnet.Samples.AspNetCore.WebApi"^
                           }^
                         },^
@@ -229,24 +229,16 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "docker",^
-                            "arguments": ["login","sparccontainer.azurecr.io"]^
+                            "command": "powershell",^
+                            "arguments": ["docker","tag","${{ parameters.imageName }}","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
                           }^
                         },^
                         {^
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "docker",^
-                            "arguments": ["tag","${{ parameters.imageName }}","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
-                          }^
-                        },^
-                        {^
-                          "type": "exec",^
-                          "attributes": {^
-                            "run_if": ["passed"],^
-                            "command": "docker",^
-                            "arguments": ["push","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
+                            "command": "powershell",^
+                            "arguments": ["docker","push","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
                           }^
                         }^
                       ]^
