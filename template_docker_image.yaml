@@ -245,7 +245,7 @@ spec:
                     }^
                   ]^
                 },^
-				                     {^
+                {^
                   "name": "deployment",^
                   "fetch_materials": false,^
                   "never_cleanup_artifacts": false,^
@@ -283,7 +283,7 @@ spec:
                             "run_if": ["passed"],^
                             "command": "powershell",^
                             "arguments": ["-File","C:\\gocd\\deploykube.ps1","-ManifestFilePath","deployment.yaml "],^
-							"working_directory": "Dotnet.Samples.AspNetCore.WebApi"^
+                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi"^
                           }^
                         }^
                       ]^
@@ -291,7 +291,7 @@ spec:
                   ]^
                 }^
               ]^
-            }^
+            },^
     
           }^ > gocd-config.json
           echo "Configuring GOCD pipeline ending..."
