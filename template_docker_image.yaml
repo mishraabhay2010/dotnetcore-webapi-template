@@ -275,7 +275,6 @@ spec:
                             "command": "powershell",^
                             "working_directory: "Dotnet.Samples.AspNetCore.WebApi",^
                             "arguments": ["\u0026","python","C:\gocd\generate_deployment_yaml.py",""--image-name","sparccontainer.azurecr.io/${{ parameters.imageName }}","--replicas", "1","--pipeline_name", "${{ parameters.gocdPipelineName }}"]^
-                           
                           }^
                         },^
                         {^
