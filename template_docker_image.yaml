@@ -193,7 +193,7 @@ spec:
                     }^
                   ]^
                 },^
-                                {^
+                {^
                   "name": "creatdockerimage",^
                   "fetch_materials": false,^
                   "never_cleanup_artifacts": false,^
@@ -209,7 +209,7 @@ spec:
                   "environment_variables": [],^
                   "jobs": [^
                     {^
-                      "name": "creatdockerimage",^
+                      "name": "dockerimage",^
                       "environment_variables": [],^
                       "tabs": [],^
                       "resources": [],^
@@ -220,27 +220,80 @@ spec:
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "powershell",^
-                            "arguments": ["docker","build","-t${{ parameters.imageName }}","."],^
-                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi"^
+                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
+                            "command": "docker",^
+                            "arguments": ["build","-t${{ parameters.imageName }}","."],^
                           }^
                         },^
                         {^
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "powershell",^
-                            "arguments": ["docker","tag","${{ parameters.imageName }}","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
+                            "command": "docker",^
+                            "arguments": ["login","sparccontainer.azurecr.io"]^
                           }^
                         },^
                         {^
                           "type": "exec",^
                           "attributes": {^
                             "run_if": ["passed"],^
-                            "command": "powershell",^
-                            "arguments": ["docker","push","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
+                            "command": "docker",^
+                            "arguments": ["tag","${{ parameters.imageName }}","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
                           }^
-                        }^
+                        },^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "command": "docker",^
+                            "arguments": ["push","sparccontainer.azurecr.io/${{ parameters.imageName }}"]^
+                          }^
+                        },^
+                      ]^
+                    }^
+                  ]^
+                },^
+                {^
+                  "name": "deployment",^
+                  "fetch_materials": false,^
+                  "never_cleanup_artifacts": false,^
+                  "clean_working_directory": false,^
+                  "approval": {^
+                    "type": "success",^
+                    "authorization": {^
+                      "users": [],^
+                      "roles": []^
+                    },^
+                    "allow_only_on_success": true^
+                  },^
+                  "environment_variables": [],^
+                  "jobs": [^
+                    {^
+                      "name": "deployment",^
+                      "environment_variables": [],^
+                      "tabs": [],^
+                      "resources": [],^
+                      "artifacts": [],^
+                      "timeout": null,^
+                      "tasks": [^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
+                            "command": "powershell",^
+                            "arguments": ["\u0026","python","C:\\gocd\\generate_deployment_yaml.py","--image-name","sparccontainer.azurecr.io/${{ parameters.imageName }}","--replicas","1", "--pipeline_name","${{ parameters.gocdPipelineName }}"],^
+                          }^
+                        },^
+                        {^
+                          "type": "exec",^
+                          "attributes": {^
+                            "run_if": ["passed"],^
+                            "working_directory": "Dotnet.Samples.AspNetCore.WebApi",^
+                            "command": "powershell",^
+                            "arguments": ["-File","C:\\gocd\\deploykube.ps1","-ManifestFilePath","deployment.yaml"]^
+                          }^
+                        },^
                       ]^
                     }^
                   ]^
